@@ -1,0 +1,26 @@
+{
+  "name": "wayang-kulit-digital-indonesia",
+  "version": "1.0.0",
+  "description": "Interactive WebGL Wayang Kulit shadow puppetry driven by real-time webcam hand tracking and gestures. Created by Yossika Putra.",
+  "scripts": {
+    "dev": "npx serve . -l 3000",
+    "start": "npx serve . -l 3000",
+    "preview": "npx serve . -l 3000"
+  },
+  "keywords": [
+    "wayang",
+    "wayang-kulit",
+    "indonesia",
+    "culture",
+    "hand-tracking",
+    "mediapipe",
+    "webgl",
+    "puppetry",
+    "creative-coding"
+  ],
+  "author": "Yossika Putra Erlangga <https://yossikaputra.my.id/>",
+  "license": "MIT",
+  "devDependencies": {
+    "serve": "^14.2.4"
+  }
+}
