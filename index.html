@@ -65,11 +65,11 @@
       <!-- Floating Sacred Gunungan Elements (Left & Right Sides) -->
       <div class="floating-gunungan-container" aria-hidden="true">
         <div class="floating-gunungan gunungan-left" id="gunungan-left">
-          <img src="assets/gunungan-gold.webp" alt="Gunungan Jawa" class="gunungan-img" />
+          <img src="assets/gunungan-left.webp" alt="Gunungan Jawa" class="gunungan-img" />
           <div class="gunungan-ambient-glow"></div>
         </div>
         <div class="floating-gunungan gunungan-right" id="gunungan-right">
-          <img src="assets/gunungan-gold.webp" alt="Gunungan Jawa" class="gunungan-img" />
+          <img src="assets/gunungan-right.webp" alt="Gunungan Jawa" class="gunungan-img" />
           <div class="gunungan-ambient-glow"></div>
         </div>
       </div>
@@ -78,9 +78,9 @@
       <header class="land-hero">
         <div class="land-container hero-grid">
           <div class="hero-content">
-            <div class="hero-pill">
-              <span class="pill-glow"></span>
-              <span class="pill-text">Warisan Budaya UNESCO × Computer Vision AI</span>
+            <div class="hero-kicker">
+              <span class="kicker-rule"></span>
+              <span class="kicker-text">Warisan Peradaban Nusantara · Komputasi Gestur AI</span>
             </div>
             
             <h1 class="hero-title">
@@ -91,11 +91,26 @@
               Panggung virtual interaktif berkinerja tinggi. Melacak anatomi sendi tangan secara real-time via kamera untuk mengendalikan cempurit gapit dan tuding wayang dalam tata kelir WebGL2.
             </p>
 
-            <div class="hero-feature-pills">
-              <span class="feat-pill">60 FPS Vision AI</span>
-              <span class="feat-pill">Soft Shadow WebGL2</span>
-              <span class="feat-pill">Wirama Beat Clock</span>
-              <span class="feat-pill">Bebas Akses di Semua Perangkat</span>
+            <div class="hero-specs-row">
+              <div class="spec-inline-item">
+                <span class="spec-inline-val">60 FPS</span>
+                <span class="spec-inline-lbl">Vision Tracking</span>
+              </div>
+              <span class="spec-inline-div"></span>
+              <div class="spec-inline-item">
+                <span class="spec-inline-val">WebGL2</span>
+                <span class="spec-inline-lbl">Soft Shadow Engine</span>
+              </div>
+              <span class="spec-inline-div"></span>
+              <div class="spec-inline-item">
+                <span class="spec-inline-val">Wirama</span>
+                <span class="spec-inline-lbl">Beat Gamelan</span>
+              </div>
+              <span class="spec-inline-div"></span>
+              <div class="spec-inline-item">
+                <span class="spec-inline-val">Multi-Device</span>
+                <span class="spec-inline-lbl">Responsive Display</span>
+              </div>
             </div>
 
             <div class="hero-cta-group">
@@ -113,7 +128,7 @@
 
           <!-- Hero Visual with Interactive 3-Tier Image Zoom Modal -->
           <div class="hero-visual">
-            <div class="hero-preview-frame zoomable-card" id="hero-preview-card" role="button" tabindex="0" title="Klik untuk membuka preview detail interaktif & zoom" data-preview="assets/puppet-preview.webp" data-highres="assets/puppet-zoom.webp" data-tag="Detail Tatahan Kulit" data-subtag="Ukiran Halus & Pewarnaan Prada Emas">
+            <div class="hero-preview-frame zoomable-card" id="hero-preview-card" role="button" tabindex="0" title="Prabu Puntadewa (Detail Tatahan & Prada Emas)" data-preview="assets/puppet-preview.webp" data-highres="assets/puppet-zoom.webp" data-tag="Detail Tatahan Kulit" data-subtag="Ukiran Halus & Pewarnaan Prada Emas Tradisional">
               <div class="frame-ambient"></div>
               
               <!-- 3-Tier Image: Thumbnail tier (lightweight 22KB) -->
@@ -122,17 +137,6 @@
                    sizes="(max-width: 640px) 210px, 420px"
                    alt="Wayang Kulit Karakter" 
                    class="hero-puppet-render" />
-
-              <div class="frame-glass-badge">
-                <span class="status-live-dot"></span>
-                <span>Klik foto untuk zoom detail tatahan</span>
-                <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <circle cx="11" cy="11" r="8"></circle>
-                  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                  <line x1="11" y1="8" x2="11" y2="14"></line>
-                  <line x1="8" y1="11" x2="14" y2="11"></line>
-                </svg>
-              </div>
             </div>
           </div>
         </div>
@@ -154,7 +158,7 @@
                data-tag="Seni Pagelaran Dalang" 
                data-subtag="Harmoni Kelir, Blencong, Sinden, dan Bayangan Semesta" 
                role="button" tabindex="0" 
-               title="Klik untuk melihat foto pementasan dalang dalam resolusi tinggi">
+               title="Pagelaran Dalang di Balik Kelir Mori">
             <div class="dalang-visual-pane">
               <img src="assets/dalang-performance-thumb.webp" 
                    srcset="assets/dalang-performance-thumb.webp 341w, assets/dalang-performance.webp 682w" 
@@ -162,15 +166,6 @@
                    alt="Sang Dalang mementaskan wayang di balik kelir dan cahaya blencong" 
                    class="dalang-img" />
               <div class="dalang-overlay-gradient"></div>
-              <div class="dalang-zoom-badge">
-                <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <circle cx="11" cy="11" r="8"></circle>
-                  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                  <line x1="11" y1="8" x2="11" y2="14"></line>
-                  <line x1="8" y1="11" x2="14" y2="11"></line>
-                </svg>
-                <span>Zoom Foto Pagelaran</span>
-              </div>
             </div>
             <div class="dalang-info-pane">
               <span class="bento-badge">Ritual & Panggung Hidup</span>
@@ -202,7 +197,7 @@
                  data-tag="Lakon Epik Ramayana" 
                  data-subtag="Pertarungan Ksatria Membela Kebenaran (Dharma)" 
                  role="button" tabindex="0" 
-                 title="Klik untuk memperbesar karya siluet Ramayana">
+                 title="Lakon Epik Ramayana">
               <div class="card-art-preview">
                 <img src="assets/lakon-ramayana-thumb.webp" 
                      srcset="assets/lakon-ramayana-thumb.webp 279w, assets/lakon-ramayana.webp 558w" 
@@ -210,10 +205,6 @@
                      alt="Siluet Epik Pertarungan Ramayana" 
                      class="art-card-img" />
                 <div class="card-art-overlay"></div>
-                <div class="card-art-badge">
-                  <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
-                  <span>Zoom Siluet</span>
-                </div>
               </div>
               <div class="card-art-body">
                 <span class="bento-badge">Epos Ramayana & Mahabharata</span>
@@ -288,17 +279,13 @@
                data-tag="Filosofi Kayon (Gunungan)" 
                data-subtag="Pohon Kehidupan (Kalpataru), Makara Kala, & Gerbang Semesta" 
                role="button" tabindex="0" 
-               title="Klik untuk zoom detail ukiran Gunungan Kala">
+               title="Filosofi Kayon Gunungan Kala">
             <div class="gunungan-visual-side">
               <img src="assets/gunungan-kala-thumb.webp" 
                    srcset="assets/gunungan-kala-thumb.webp 250w, assets/gunungan-kala.webp 500w" 
                    sizes="(max-width: 640px) 160px, 220px" 
                    alt="Gunungan Wayang Kulit Tradisional" 
                    class="gunungan-feature-thumb" />
-              <div class="gunungan-zoom-pill">
-                <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
-                <span>Lihat Ukiran Halus</span>
-              </div>
             </div>
             <div class="gunungan-text-side">
               <span class="bento-badge">Pohon Hayat & Siklus Kehidupan</span>
@@ -311,77 +298,146 @@
         </div>
       </section>
 
-      <!-- Section: Tokoh Pewayangan -->
+      <!-- Section: Tokoh Pewayangan (User Verified Characters Gallery) -->
       <section id="tokoh" class="land-section">
         <div class="land-container">
           <div class="section-head">
             <span class="section-tag">Karakter Ikonik</span>
             <h2 class="section-heading">Arketipe Tokoh Pewayangan</h2>
-            <p class="section-subtext">Setiap figur wayang mencerminkan karakter mental dan kepribadian manusia yang relevan sepanjang zaman.</p>
+            <p class="section-subtext">Setiap figur wayang mencerminkan watak moral, kekuatan batin, dan kepribadian luhur manusia.</p>
           </div>
 
           <div class="character-tiles">
-            <!-- Dewi Srikandi Interactive Character Card -->
-            <div class="char-tile char-tile-heroic zoomable-card" 
+            <!-- Foto 1: Yudhistira -->
+            <div class="char-tile zoomable-card" 
+                 data-preview="assets/char-yudhistira-thumb.webp" 
+                 data-highres="assets/char-yudhistira.webp" 
+                 data-tag="Prabu Yudhistira" 
+                 data-subtag="Puntadewa · Simbol Ketulusan, Kesabaran & Kebenaran Mutlak" 
+                 role="button" tabindex="0" 
+                 title="Prabu Yudhistira (Puntadewa)">
+              <div class="char-photo-wrap">
+                <img src="assets/char-yudhistira-thumb.webp" 
+                     srcset="assets/char-yudhistira-thumb.webp 332w, assets/char-yudhistira.webp 664w" 
+                     sizes="160px" 
+                     alt="Wayang Yudhistira Puntadewa" 
+                     class="char-photo-img" />
+              </div>
+              <div class="char-top">
+                <span class="char-name">Yudhistira</span>
+                <span class="char-badge">Puntadewa</span>
+              </div>
+              <p class="char-summary">Simbol ketulusan dan kebenaran mutlak. Raja berdarah putih yang menolak dusta, mengutamakan kesabaran, dan memegang teguh tali darma keadilan sejati.</p>
+            </div>
+
+            <!-- Foto 2: Bima -->
+            <div class="char-tile zoomable-card" 
+                 data-preview="assets/char-bima-thumb.webp" 
+                 data-highres="assets/char-bima.webp" 
+                 data-tag="Raden Bima" 
+                 data-subtag="Werkudara · Ksatria Gagah Perkasa Berkuku Pancanaka" 
+                 role="button" tabindex="0" 
+                 title="Raden Bima (Werkudara)">
+              <div class="char-photo-wrap">
+                <img src="assets/char-bima-thumb.webp" 
+                     srcset="assets/char-bima-thumb.webp 262w, assets/char-bima.webp 525w" 
+                     sizes="160px" 
+                     alt="Wayang Bima Werkudara" 
+                     class="char-photo-img" />
+              </div>
+              <div class="char-top">
+                <span class="char-name">Bima</span>
+                <span class="char-badge">Werkudara</span>
+              </div>
+              <p class="char-summary">Ksatria gagah perkasa berkuku Pancanaka. Lambang kejujuran tanpa kompromi, keteguhan prinsip pantang mundur, dan keberanian menegakkan kebenaran.</p>
+            </div>
+
+            <!-- Foto 3: Arjuna -->
+            <div class="char-tile zoomable-card" 
+                 data-preview="assets/char-arjuna-thumb.webp" 
+                 data-highres="assets/char-arjuna.webp" 
+                 data-tag="Raden Arjuna" 
+                 data-subtag="Janaka · Ksatria Panengah Pandawa & Ketajaman Konsentrasi" 
+                 role="button" tabindex="0" 
+                 title="Raden Arjuna (Janaka)">
+              <div class="char-photo-wrap">
+                <img src="assets/char-arjuna-thumb.webp" 
+                     srcset="assets/char-arjuna-thumb.webp 307w, assets/char-arjuna.webp 614w" 
+                     sizes="160px" 
+                     alt="Wayang Arjuna Janaka" 
+                     class="char-photo-img" />
+              </div>
+              <div class="char-top">
+                <span class="char-name">Arjuna</span>
+                <span class="char-badge">Janaka</span>
+              </div>
+              <p class="char-summary">Pemanah ulung berjiwa ksatria luhur. Representasi ketajaman konsentrasi batiniah (*cipta hening*), kehalusan budi pekerti, dan disiplin kesaktian.</p>
+            </div>
+
+            <!-- Foto 4: Gatotkaca -->
+            <div class="char-tile zoomable-card" 
+                 data-preview="assets/char-gatotkaca-thumb.webp" 
+                 data-highres="assets/char-gatotkaca.webp" 
+                 data-tag="Raden Gatotkaca" 
+                 data-subtag="Ksatria Pringgandani · Otot Kawat Tulang Besi" 
+                 role="button" tabindex="0" 
+                 title="Raden Gatotkaca">
+              <div class="char-photo-wrap">
+                <img src="assets/char-gatotkaca-thumb.webp" 
+                     srcset="assets/char-gatotkaca-thumb.webp 182w, assets/char-gatotkaca.webp 365w" 
+                     sizes="160px" 
+                     alt="Wayang Gatotkaca" 
+                     class="char-photo-img" />
+              </div>
+              <div class="char-top">
+                <span class="char-name">Gatotkaca</span>
+                <span class="char-badge">Ksatria Udara</span>
+              </div>
+              <p class="char-summary">Ksatria Pringgandani yang mampu terbang tanpa sayap. Lambang loyalitas pengorbanan tertinggi demi melindungi kedaulatan tanah air dan bangsanya.</p>
+            </div>
+
+            <!-- Foto 5: Kyai Semar -->
+            <div class="char-tile zoomable-card" 
+                 data-preview="assets/char-semar-thumb.webp" 
+                 data-highres="assets/char-semar.webp" 
+                 data-tag="Kyai Semar Badranaya" 
+                 data-subtag="Batara Ismaya · Pamong Sejati & Sumber Kearifan Nusantara" 
+                 role="button" tabindex="0" 
+                 title="Kyai Semar Badranaya">
+              <div class="char-photo-wrap">
+                <img src="assets/char-semar-thumb.webp" 
+                     srcset="assets/char-semar-thumb.webp 341w, assets/char-semar.webp 683w" 
+                     sizes="160px" 
+                     alt="Wayang Kyai Semar" 
+                     class="char-photo-img" />
+              </div>
+              <div class="char-top">
+                <span class="char-name">Kyai Semar</span>
+                <span class="char-badge">Pamong Sejati</span>
+              </div>
+              <p class="char-summary">Manifestasi Batara Ismaya yang merakyat. Representasi kearifan lokal, kerendahan hati, kejujuran batiniah, dan penuntun moral para ksatria.</p>
+            </div>
+
+            <!-- Bonus: Dewi Srikandi -->
+            <div class="char-tile zoomable-card" 
                  data-preview="assets/puppet-srikandi-thumb.webp" 
                  data-highres="assets/puppet-srikandi.webp" 
                  data-tag="Dewi Srikandi" 
                  data-subtag="Prajurit Ksatria Wanita & Lambang Keteguhan Jiwa" 
                  role="button" tabindex="0" 
-                 title="Klik untuk zoom karakter Dewi Srikandi">
+                 title="Dewi Srikandi">
               <div class="char-photo-wrap">
                 <img src="assets/puppet-srikandi-thumb.webp" 
                      srcset="assets/puppet-srikandi-thumb.webp 220w, assets/puppet-srikandi.webp 441w" 
-                     sizes="120px" 
+                     sizes="160px" 
                      alt="Wayang Dewi Srikandi" 
                      class="char-photo-img" />
-                <div class="char-photo-overlay"></div>
               </div>
               <div class="char-top">
                 <span class="char-name">Dewi Srikandi</span>
                 <span class="char-badge">Senapati Ksatria</span>
               </div>
               <p class="char-summary">Prajurit wanita legendaris berjiwa merdeka dan pemanah tangguh. Tokoh panutan emansipasi nusantara yang membela kehormatan dan keadilan sejati.</p>
-            </div>
-
-            <div class="char-tile">
-              <div class="char-top">
-                <span class="char-name">Yudhistira</span>
-                <span class="char-badge">Puntadewa</span>
-              </div>
-              <p class="char-summary">Simbol ketulusan dan kebenaran mutlak. Raja berdarah putih yang menolak dusta dan mengutamakan kesabaran.</p>
-            </div>
-
-            <div class="char-tile">
-              <div class="char-top">
-                <span class="char-name">Bima</span>
-                <span class="char-badge">Werkudara</span>
-              </div>
-              <p class="char-summary">Ksatria gagah perkasa berkuku Pancanaka. Lambang kejujuran tanpa kompromi, keteguhan prinsip, dan keberanian menegakkan keadilan.</p>
-            </div>
-
-            <div class="char-tile">
-              <div class="char-top">
-                <span class="char-name">Arjuna</span>
-                <span class="char-badge">Janaka</span>
-              </div>
-              <p class="char-summary">Pemanah ulung berjiwa ksatria luhur. Representasi ketajaman konsentrasi batiniah, kehalusan budi, dan disiplin kesaktian.</p>
-            </div>
-
-            <div class="char-tile">
-              <div class="char-top">
-                <span class="char-name">Gatotkaca</span>
-                <span class="char-badge">Ksatria Udara</span>
-              </div>
-              <p class="char-summary">Ksatria Pringgandani berotot kawat bertulang besi. Lambang loyalitas pengorbanan tertinggi dalam menjaga kedaulatan bangsanya.</p>
-            </div>
-
-            <div class="char-tile">
-              <div class="char-top">
-                <span class="char-name">Kyai Semar</span>
-                <span class="char-badge">Pamong Sejati</span>
-              </div>
-              <p class="char-summary">Dewa Batara Ismaya yang menyamar sebagai rakyat jelata. Representasi kearifan lokal, kerendahan hati, dan penuntun sejati para ksatria.</p>
             </div>
           </div>
         </div>

@@ -292,39 +292,17 @@ viewport?.addEventListener('pointerup', (e) => {
 
 // ---------- GSAP Animations (Floating Gunungan, Blencong Sway, ScrollTrigger) ----------
 if (window.gsap) {
-  // 1. Continuous Floating Levitation of the Gunungan (Sine waves, subtle rotation)
+  // 1. Natural Breathing Floating for Gunungan (Smooth up & down, zero glitch, zero spinning)
   gsap.to('#gunungan-left', {
-    y: -24,
-    rotation: 3,
-    duration: 5.5,
-    repeat: -1,
-    yoyo: true,
-    ease: 'sine.inOut'
-  });
-
-  gsap.to('#gunungan-right', {
-    y: 22,
-    rotation: -3,
-    duration: 6.2,
-    repeat: -1,
-    yoyo: true,
-    ease: 'sine.inOut',
-    delay: 0.5
-  });
-
-  // 2. Continuous Pendulum Sway of the Antique Blencong Lanterns
-  gsap.to('.blencong-lamp-left', {
-    rotation: 2.2,
-    transformOrigin: 'top center',
+    y: -16,
     duration: 5.2,
     repeat: -1,
     yoyo: true,
     ease: 'sine.inOut'
   });
 
-  gsap.to('.blencong-lamp-right', {
-    rotation: -2.2,
-    transformOrigin: 'top center',
+  gsap.to('#gunungan-right', {
+    y: -16,
     duration: 5.8,
     repeat: -1,
     yoyo: true,
@@ -332,32 +310,29 @@ if (window.gsap) {
     delay: 0.4
   });
 
-  // 3. GSAP ScrollTrigger for Scroll Parallax and Section Reveals
+  // 2. Continuous Pendulum Sway of the Antique Blencong Hanging Lanterns
+  gsap.to('.blencong-lamp-left', {
+    rotation: 4.8,
+    transformOrigin: 'top center',
+    duration: 4.2,
+    repeat: -1,
+    yoyo: true,
+    ease: 'sine.inOut'
+  });
+
+  gsap.to('.blencong-lamp-right', {
+    rotation: -4.8,
+    transformOrigin: 'top center',
+    duration: 4.6,
+    repeat: -1,
+    yoyo: true,
+    ease: 'sine.inOut',
+    delay: 0.3
+  });
+
+  // 3. GSAP ScrollTrigger for Clean Section Reveals (No conflicting tweens)
   if (window.ScrollTrigger) {
     gsap.registerPlugin(ScrollTrigger);
-
-    // Subtle Gunungan parallax on scroll
-    gsap.to('#gunungan-left', {
-      scrollTrigger: {
-        trigger: '#landing-page',
-        start: 'top top',
-        end: 'bottom bottom',
-        scrub: 1.5,
-      },
-      y: 110,
-      ease: 'none'
-    });
-
-    gsap.to('#gunungan-right', {
-      scrollTrigger: {
-        trigger: '#landing-page',
-        start: 'top top',
-        end: 'bottom bottom',
-        scrub: 1.5,
-      },
-      y: 110,
-      ease: 'none'
-    });
 
     // Smooth section headers reveal
     gsap.utils.toArray('.section-head').forEach((el) => {
