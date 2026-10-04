@@ -17,6 +17,7 @@
   "author": "Yossika Putra Erlangga <https://yossikaputra.my.id/>",
   "license": "MIT",
   "dependencies": {
+    "gsap": "^3.15.0",
     "motion": "^14.0.0"
   }
 }

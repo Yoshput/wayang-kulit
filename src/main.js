@@ -85,18 +85,63 @@ function resize() {
 addEventListener('resize', resize);
 resize();
 
-// ---------- Landing Page & Stage Navigation ----------
+// ---------- Landing Page & Stage Navigation (Theatrical Curtain Transition) ----------
 function showStage() {
-  document.body.className = 'view-stage';
-  resize();
-  if (window.wayang?.music && !window.wayang.music.started) {
-    window.wayang.music.start();
+  const curtain = $('page-curtain');
+  if (window.gsap && curtain) {
+    curtain.classList.add('active');
+    const tl = gsap.timeline({
+      onComplete: () => {
+        curtain.classList.remove('active');
+      }
+    });
+
+    // Step 1: Theatrical kelir curtain sweeps shut with golden emblem
+    tl.set('.curtain-panel', { scaleX: 0, transformOrigin: (i) => i === 0 ? 'left center' : 'right center' })
+      .set('#curtain-emblem', { opacity: 0, scale: 0.8 })
+      .to('.curtain-panel', { scaleX: 1, duration: 0.38, ease: 'power3.inOut' })
+      .to('#curtain-emblem', { opacity: 1, scale: 1, duration: 0.25, ease: 'back.out(1.7)' }, '-=0.15')
+      .call(() => {
+        document.body.className = 'view-stage';
+        resize();
+        if (window.wayang?.music && !window.wayang.music.started) {
+          window.wayang.music.start();
+        }
+      })
+      .to('#curtain-emblem', { opacity: 0, scale: 0.9, duration: 0.2, delay: 0.15 })
+      .to('.curtain-panel', { scaleX: 0, duration: 0.45, ease: 'power3.inOut', transformOrigin: (i) => i === 0 ? 'left center' : 'right center' }, '-=0.1')
+      .fromTo('#stage-view', { opacity: 0, scale: 1.03 }, { opacity: 1, scale: 1, duration: 0.5, ease: 'power2.out' }, '-=0.35');
+  } else {
+    document.body.className = 'view-stage';
+    resize();
+    if (window.wayang?.music && !window.wayang.music.started) {
+      window.wayang.music.start();
+    }
   }
 }
 
 function showLanding() {
-  document.body.className = 'view-landing';
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  const curtain = $('page-curtain');
+  if (window.gsap && curtain) {
+    curtain.classList.add('active');
+    const tl = gsap.timeline({
+      onComplete: () => {
+        curtain.classList.remove('active');
+      }
+    });
+
+    tl.set('.curtain-panel', { scaleX: 0, transformOrigin: (i) => i === 0 ? 'left center' : 'right center' })
+      .to('.curtain-panel', { scaleX: 1, duration: 0.35, ease: 'power2.inOut' })
+      .call(() => {
+        document.body.className = 'view-landing';
+        window.scrollTo({ top: 0, behavior: 'instant' });
+      })
+      .to('.curtain-panel', { scaleX: 0, duration: 0.4, ease: 'power3.inOut', transformOrigin: (i) => i === 0 ? 'left center' : 'right center' })
+      .fromTo('#landing-page', { opacity: 0, y: -15 }, { opacity: 1, y: 0, duration: 0.45, ease: 'power2.out' }, '-=0.25');
+  } else {
+    document.body.className = 'view-landing';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
 }
 
 $('btn-nav-play')?.addEventListener('click', showStage);
@@ -108,9 +153,8 @@ if (location.hash === '#play') {
   showStage();
 }
 
-// ---------- 3-Tier Image Zoom Modal & Motion Animations ----------
+// ---------- Universal 3-Tier Image Zoom Modal & Motion Animations ----------
 const zoomModal = $('image-zoom-modal');
-const heroCard = $('hero-preview-card');
 const modalImg = $('modal-zoom-img');
 const imgWrapper = $('modal-image-wrapper');
 let currentZoom = 1;
@@ -123,7 +167,7 @@ function updateTransform() {
   }
 }
 
-function openZoomModal() {
+function openZoomModal(previewUrl = 'assets/puppet-preview.webp', highResUrl = 'assets/puppet-zoom.webp', tagText = 'Detail Karakter', subtagText = 'Tatahan Kulit Asli & Gradasi Pewarnaan') {
   if (!zoomModal) return;
   zoomModal.hidden = false;
   zoomModal.setAttribute('aria-hidden', 'false');
@@ -133,13 +177,22 @@ function openZoomModal() {
   translateY = 0;
   updateTransform();
 
-  // Tier 2: Preview WebP immediately loaded; then swap in Tier 3 Full High-Res
-  const highResUrl = modalImg?.getAttribute('data-highres');
+  const modalTag = zoomModal.querySelector('.modal-tag');
+  const modalSubtag = zoomModal.querySelector('.modal-subtag');
+  if (modalTag && tagText) modalTag.textContent = tagText;
+  if (modalSubtag && subtagText) modalSubtag.textContent = subtagText;
+
+  if (modalImg) {
+    modalImg.src = previewUrl;
+    modalImg.setAttribute('data-highres', highResUrl || previewUrl);
+  }
+
+  // Tier 2 -> Tier 3: progressive full high-res swap
   if (highResUrl && modalImg) {
     const highImg = new Image();
     highImg.src = highResUrl;
     highImg.onload = () => {
-      if (!zoomModal.hidden) {
+      if (!zoomModal.hidden && modalImg.getAttribute('data-highres') === highResUrl) {
         modalImg.src = highResUrl;
       }
     };
@@ -168,8 +221,25 @@ function closeZoomModal() {
   }
 }
 
-heroCard?.addEventListener('click', openZoomModal);
-heroCard?.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { openZoomModal(); e.preventDefault(); } });
+// Bind all zoomable cards across the landing page
+document.querySelectorAll('.zoomable-card').forEach((card) => {
+  const trigger = (e) => {
+    e?.stopPropagation?.();
+    const preview = card.dataset.preview || 'assets/puppet-preview.webp';
+    const highres = card.dataset.highres || 'assets/puppet-zoom.webp';
+    const tag = card.dataset.tag || 'Detail Gambar';
+    const subtag = card.dataset.subtag || 'Resolusi Tinggi';
+    openZoomModal(preview, highres, tag, subtag);
+  };
+  card.addEventListener('click', trigger);
+  card.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      trigger(e);
+    }
+  });
+});
+
 $('btn-close-modal')?.addEventListener('click', closeZoomModal);
 zoomModal?.addEventListener('click', (e) => {
   if (e.target === zoomModal) closeZoomModal();
@@ -220,7 +290,109 @@ viewport?.addEventListener('pointerup', (e) => {
   viewport.releasePointerCapture(e.pointerId);
 });
 
-// Initialize Motion entrance animations for landing page cards
+// ---------- GSAP Animations (Floating Gunungan, Blencong Sway, ScrollTrigger) ----------
+if (window.gsap) {
+  // 1. Continuous Floating Levitation of the Gunungan (Sine waves, subtle rotation)
+  gsap.to('#gunungan-left', {
+    y: -24,
+    rotation: 3,
+    duration: 5.5,
+    repeat: -1,
+    yoyo: true,
+    ease: 'sine.inOut'
+  });
+
+  gsap.to('#gunungan-right', {
+    y: 22,
+    rotation: -3,
+    duration: 6.2,
+    repeat: -1,
+    yoyo: true,
+    ease: 'sine.inOut',
+    delay: 0.5
+  });
+
+  // 2. Continuous Pendulum Sway of the Antique Blencong Lanterns
+  gsap.to('.blencong-lamp-left', {
+    rotation: 2.2,
+    transformOrigin: 'top center',
+    duration: 5.2,
+    repeat: -1,
+    yoyo: true,
+    ease: 'sine.inOut'
+  });
+
+  gsap.to('.blencong-lamp-right', {
+    rotation: -2.2,
+    transformOrigin: 'top center',
+    duration: 5.8,
+    repeat: -1,
+    yoyo: true,
+    ease: 'sine.inOut',
+    delay: 0.4
+  });
+
+  // 3. GSAP ScrollTrigger for Scroll Parallax and Section Reveals
+  if (window.ScrollTrigger) {
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Subtle Gunungan parallax on scroll
+    gsap.to('#gunungan-left', {
+      scrollTrigger: {
+        trigger: '#landing-page',
+        start: 'top top',
+        end: 'bottom bottom',
+        scrub: 1.5,
+      },
+      y: 110,
+      ease: 'none'
+    });
+
+    gsap.to('#gunungan-right', {
+      scrollTrigger: {
+        trigger: '#landing-page',
+        start: 'top top',
+        end: 'bottom bottom',
+        scrub: 1.5,
+      },
+      y: 110,
+      ease: 'none'
+    });
+
+    // Smooth section headers reveal
+    gsap.utils.toArray('.section-head').forEach((el) => {
+      gsap.from(el, {
+        scrollTrigger: {
+          trigger: el,
+          start: 'top 85%',
+          once: true,
+        },
+        opacity: 0,
+        y: 28,
+        duration: 0.75,
+        ease: 'power2.out'
+      });
+    });
+
+    // Smooth bento cards, dalang showcase, and character tiles reveal
+    gsap.utils.toArray('.bento-card, .dalang-showcase-card, .gunungan-philosophy-card, .philo-glass-card, .char-tile, .gesture-item, .spec-card').forEach((card, idx) => {
+      gsap.from(card, {
+        scrollTrigger: {
+          trigger: card,
+          start: 'top 88%',
+          once: true,
+        },
+        opacity: 0,
+        y: 32,
+        duration: 0.7,
+        delay: (idx % 3) * 0.08,
+        ease: 'power2.out'
+      });
+    });
+  }
+}
+
+// Initialize Motion entrance animations for landing hero
 if (window.Motion?.animate) {
   window.Motion.animate('.hero-content', { opacity: [0, 1], y: [20, 0] }, { duration: 0.8, easing: [0.16, 1, 0.3, 1] });
   window.Motion.animate('.hero-visual', { opacity: [0, 1], scale: [0.95, 1] }, { duration: 0.9, delay: 0.15, easing: [0.16, 1, 0.3, 1] });
