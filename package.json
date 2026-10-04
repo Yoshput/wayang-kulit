@@ -15,5 +15,8 @@
     "creative-coding"
   ],
   "author": "Yossika Putra Erlangga <https://yossikaputra.my.id/>",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "motion": "^14.0.0"
+  }
 }

@@ -108,6 +108,124 @@ if (location.hash === '#play') {
   showStage();
 }
 
+// ---------- 3-Tier Image Zoom Modal & Motion Animations ----------
+const zoomModal = $('image-zoom-modal');
+const heroCard = $('hero-preview-card');
+const modalImg = $('modal-zoom-img');
+const imgWrapper = $('modal-image-wrapper');
+let currentZoom = 1;
+let isPanning = false;
+let startX = 0, startY = 0, translateX = 0, translateY = 0;
+
+function updateTransform() {
+  if (imgWrapper) {
+    imgWrapper.style.transform = `translate(${translateX}px, ${translateY}px) scale(${currentZoom})`;
+  }
+}
+
+function openZoomModal() {
+  if (!zoomModal) return;
+  zoomModal.hidden = false;
+  zoomModal.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+  currentZoom = 1;
+  translateX = 0;
+  translateY = 0;
+  updateTransform();
+
+  // Tier 2: Preview WebP immediately loaded; then swap in Tier 3 Full High-Res
+  const highResUrl = modalImg?.getAttribute('data-highres');
+  if (highResUrl && modalImg) {
+    const highImg = new Image();
+    highImg.src = highResUrl;
+    highImg.onload = () => {
+      if (!zoomModal.hidden) {
+        modalImg.src = highResUrl;
+      }
+    };
+  }
+
+  // Motion.dev animate in
+  if (window.Motion?.animate) {
+    window.Motion.animate('.modal-dialog-panel', { scale: [0.92, 1], opacity: [0, 1] }, { duration: 0.3, easing: [0.16, 1, 0.3, 1] });
+  }
+}
+
+function closeZoomModal() {
+  if (!zoomModal || zoomModal.hidden) return;
+  if (window.Motion?.animate) {
+    window.Motion.animate('.modal-dialog-panel', { scale: [1, 0.95], opacity: [1, 0] }, { duration: 0.2 }).finished.then(() => {
+      zoomModal.hidden = true;
+      zoomModal.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+      if (modalImg) modalImg.src = 'assets/puppet-preview.webp';
+    });
+  } else {
+    zoomModal.hidden = true;
+    zoomModal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    if (modalImg) modalImg.src = 'assets/puppet-preview.webp';
+  }
+}
+
+heroCard?.addEventListener('click', openZoomModal);
+heroCard?.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { openZoomModal(); e.preventDefault(); } });
+$('btn-close-modal')?.addEventListener('click', closeZoomModal);
+zoomModal?.addEventListener('click', (e) => {
+  if (e.target === zoomModal) closeZoomModal();
+});
+window.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && zoomModal && !zoomModal.hidden) closeZoomModal();
+});
+
+// Zoom in / out / reset
+$('btn-zoom-in')?.addEventListener('click', () => {
+  currentZoom = Math.min(3.5, currentZoom + 0.35);
+  updateTransform();
+});
+$('btn-zoom-out')?.addEventListener('click', () => {
+  currentZoom = Math.max(0.8, currentZoom - 0.35);
+  updateTransform();
+});
+$('btn-zoom-reset')?.addEventListener('click', () => {
+  currentZoom = 1;
+  translateX = 0;
+  translateY = 0;
+  updateTransform();
+});
+
+// Viewport wheel zoom & drag pan
+const viewport = $('modal-viewport');
+viewport?.addEventListener('wheel', (e) => {
+  e.preventDefault();
+  const delta = e.deltaY < 0 ? 0.15 : -0.15;
+  currentZoom = Math.max(0.7, Math.min(4, currentZoom + delta));
+  updateTransform();
+}, { passive: false });
+
+viewport?.addEventListener('pointerdown', (e) => {
+  isPanning = true;
+  startX = e.clientX - translateX;
+  startY = e.clientY - translateY;
+  viewport.setPointerCapture(e.pointerId);
+});
+viewport?.addEventListener('pointermove', (e) => {
+  if (!isPanning) return;
+  translateX = e.clientX - startX;
+  translateY = e.clientY - startY;
+  updateTransform();
+});
+viewport?.addEventListener('pointerup', (e) => {
+  isPanning = false;
+  viewport.releasePointerCapture(e.pointerId);
+});
+
+// Initialize Motion entrance animations for landing page cards
+if (window.Motion?.animate) {
+  window.Motion.animate('.hero-content', { opacity: [0, 1], y: [20, 0] }, { duration: 0.8, easing: [0.16, 1, 0.3, 1] });
+  window.Motion.animate('.hero-visual', { opacity: [0, 1], scale: [0.95, 1] }, { duration: 0.9, delay: 0.15, easing: [0.16, 1, 0.3, 1] });
+}
+
 // ---------- UI ----------
 const intro = $('intro');
 const introStatus = $('intro-status');

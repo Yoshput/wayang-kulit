@@ -5,35 +5,47 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <title>Wayang Kulit Digital Indonesia — AI Hand Puppetry | by Yossika Putra</title>
     <meta name="author" content="Yossika Putra Erlangga" />
-    <meta name="description" content="Panggung Wayang Kulit Digital Interaktif dengan pelacakan gestur tangan webcam AI (1 atau 2 tangan) & shader WebGL2. Warisan budaya Nusantara oleh Yossika Putra." />
-    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+    <meta name="description" content="Panggung Wayang Kulit Digital Interaktif berstandar profesional dengan pelacakan gestur tangan AI & WebGL2. Karya seni & teknologi oleh Yossika Putra." />
+    
+    <!-- Security Meta Tags -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+
+    <link rel="icon" type="image/svg+xml" href="assets/logo.svg" />
+    <link rel="apple-touch-icon" href="assets/logo.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Cinzel:wght@500;600;700;800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body class="view-landing">
     <!-- ==================== LANDING PAGE ==================== -->
     <div id="landing-page" class="landing-page">
-      <!-- Navbar -->
+      <!-- Apple-grade Glassmorphic Navbar -->
       <nav class="land-nav">
         <div class="land-container nav-wrap">
           <div class="nav-brand">
-            <span class="brand-icon">🎭</span>
+            <img src="assets/logo.svg" alt="Wayang Kulit Logo" class="brand-logo-img" width="34" height="34" />
             <div class="brand-text">
               <span class="brand-title">Wayang Kulit Digital</span>
-              <span class="brand-sub">Indonesia AI Puppetry</span>
+              <span class="brand-sub">Nusantara AI Puppetry</span>
             </div>
           </div>
           <ul class="nav-links">
             <li><a href="#sejarah">Sejarah</a></li>
             <li><a href="#filosofi">Filosofi</a></li>
-            <li><a href="#tokoh">Tokoh Wayang</a></li>
+            <li><a href="#tokoh">Karakter</a></li>
             <li><a href="#panduan">Panduan Gestur</a></li>
             <li><a href="#teknologi">Teknologi</a></li>
           </ul>
           <div class="nav-actions">
-            <button id="btn-nav-play" class="btn btn-gold small-nav">Mulai Mainkan (Gratis) →</button>
+            <button id="btn-nav-play" class="apple-btn apple-btn-primary nav-cta">
+              <span>Buka Panggung</span>
+              <svg class="btn-arrow" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 12h14"></path>
+                <path d="M12 5l7 7-7 7"></path>
+              </svg>
+            </button>
           </div>
         </div>
       </nav>
@@ -42,39 +54,60 @@
       <header class="land-hero">
         <div class="land-container hero-grid">
           <div class="hero-content">
-            <div class="hero-badge">
-              <span class="badge-dot"></span>
-              <span>WARISAN BUDAYA UNESCO × AI CREATIVE TECH</span>
+            <div class="hero-pill">
+              <span class="pill-glow"></span>
+              <span class="pill-text">Warisan Budaya UNESCO × Computer Vision AI</span>
             </div>
+            
             <h1 class="hero-title">
-              Jadilah Dalang Virtual di Panggung <span class="text-gold">Kelir Digital</span>
+              Seni Wayang Kulit Tradisional, <span class="gold-gradient">Digerakkan Gestur Nyata.</span>
             </h1>
+            
             <p class="hero-desc">
-              Eksplorasi mahakarya seni teater bayangan tradisional Jawa dengan sentuhan teknologi modern. Gerakkan wayang kulit asli dan tangkai lengannya secara langsung menggunakan gestur tangan Anda di depan kamera secara real-time.
+              Panggung virtual interaktif berkinerja tinggi. Melacak anatomi sendi tangan secara real-time via kamera untuk mengendalikan cempurit gapit dan tuding wayang dalam tata kelir WebGL2.
             </p>
-            <div class="hero-tags">
-              <span class="tag-item">✨ 100% Gratis & Interaktif</span>
-              <span class="tag-item">📷 Cukup Kamera HP / Laptop</span>
-              <span class="tag-item">🏛️ Warisan Budaya Dunia</span>
+
+            <div class="hero-feature-pills">
+              <span class="feat-pill">60 FPS Vision AI</span>
+              <span class="feat-pill">Soft Shadow WebGL2</span>
+              <span class="feat-pill">Wirama Beat Clock</span>
+              <span class="feat-pill">Bebas Akses di Semua Perangkat</span>
             </div>
+
             <div class="hero-cta-group">
-              <button id="btn-hero-play" class="btn btn-gold hero-btn">
-                <span class="btn-icon">🎭</span>
-                <span>Buka Kelir & Mainkan Sekarang</span>
+              <button id="btn-hero-play" class="apple-btn apple-btn-primary hero-main-btn">
+                <span>Mulai Mainkan Wayang</span>
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                  <path d="M8 5v14l11-7z" />
+                </svg>
               </button>
-              <a href="#sejarah" class="btn btn-outline hero-btn">
-                <span>Pelajari Kisah & Filosofi ↓</span>
+              <a href="#sejarah" class="apple-btn apple-btn-secondary">
+                <span>Pelajari Kisah & Filosofi</span>
               </a>
             </div>
           </div>
 
+          <!-- Hero Visual with Interactive 3-Tier Image Zoom Modal -->
           <div class="hero-visual">
-            <div class="visual-card">
-              <div class="visual-glow"></div>
-              <img src="assets/body.png" alt="Wayang Kulit" class="visual-puppet-img" />
-              <div class="visual-card-badge">
-                <span class="card-badge-dot"></span>
-                <span>MediaPipe AI · 60 FPS Hand Tracking</span>
+            <div class="hero-preview-frame" id="hero-preview-card" role="button" tabindex="0" title="Klik untuk membuka preview detail interaktif & zoom">
+              <div class="frame-ambient"></div>
+              
+              <!-- 3-Tier Image: Thumbnail tier (lightweight 22KB) -->
+              <img src="assets/puppet-thumb.webp" 
+                   srcset="assets/puppet-thumb.webp 210w, assets/puppet-preview.webp 420w"
+                   sizes="(max-width: 640px) 210px, 420px"
+                   alt="Wayang Kulit Karakter" 
+                   class="hero-puppet-render" />
+
+              <div class="frame-glass-badge">
+                <span class="status-live-dot"></span>
+                <span>Klik foto untuk zoom detail tatahan</span>
+                <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="11" cy="11" r="8"></circle>
+                  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                  <line x1="11" y1="8" x2="11" y2="14"></line>
+                  <line x1="8" y1="11" x2="14" y2="11"></line>
+                </svg>
               </div>
             </div>
           </div>
@@ -84,31 +117,32 @@
       <!-- Section: Sejarah & UNESCO -->
       <section id="sejarah" class="land-section">
         <div class="land-container">
-          <div class="section-header">
-            <span class="sec-eyebrow">Warisan Agung Nusantara</span>
-            <h2 class="sec-title">Asal-Muasal & Sejarah Wayang Kulit</h2>
-            <div class="sec-divider"></div>
+          <div class="section-head">
+            <span class="section-tag">Warisan Peradaban</span>
+            <h2 class="section-heading">Sejarah Seribu Tahun Wayang Purwa</h2>
+            <p class="section-subtext">Tradisi seni pertunjukan bayangan yang memadukan sastra, seni rupa kriya kulit, dan filsafat kebajikan.</p>
           </div>
-          <div class="history-grid">
-            <div class="history-card main-hist">
-              <h3>Diakui Dunia sebagai Mahakarya UNESCO</h3>
-              <p>
-                Wayang Kulit Indonesia telah diakui secara resmi oleh UNESCO pada <strong>7 November 2003</strong> sebagai <em>Masterpiece of the Oral and Intangible Heritage of Humanity</em> (Mahakarya Warisan Budaya Lisan dan Takbenda Manusia).
-              </p>
-              <p>
-                Jejak sejarahnya telah tercatat lebih dari 1.000 tahun silam, berakar dari prasasti kuno zaman Raja Balitung (Prasasti Balitung, 907 Masehi) di Jawa Tengah yang menyebutkan pertunjukan lakon <em>Bhimaya-Kumara</em>.
-              </p>
-            </div>
-            <div class="history-card">
-              <h3>Peran Wali Songo & Akulturasi Luhur</h3>
-              <p>
-                Di era Kesultanan Demak, para Wali Songo—khususnya <strong>Sunan Kalijaga</strong>—melakukan metamorfosis agung pada wayang kulit. Gambar realistis diubah menjadi stilasi artistik bernilai estetika tinggi dengan tangkai penggerak cempurit (*gapit & tuding*), menjadikannya sarana dakwah, filosofi hidup, dan pendidikan moral yang adiluhung.
+
+          <div class="apple-bento-grid">
+            <div class="bento-card bento-wide">
+              <div class="bento-badge">7 November 2003</div>
+              <h3 class="bento-title">Pengakuan UNESCO sebagai Mahakarya Budaya Dunia</h3>
+              <p class="bento-text">
+                Badan PBB UNESCO mengukuhkan Wayang Kulit Indonesia sebagai <em>Masterpiece of the Oral and Intangible Heritage of Humanity</em>. Seni ini telah mengakar kuat lebih dari sepuluh abad, terdokumentasi sejak Prasasti Balitung (907 M) di lembah peradaban Mataram Kuno.
               </p>
             </div>
-            <div class="history-card">
-              <h3>Lakon Agung Mahabharata & Ramayana</h3>
-              <p>
-                Cerita pewayangan umumnya diadaptasi dari epos besar Mahabharata dan Ramayana yang diselaraskan dengan kearifan lokal Jawa, melahirkan tokoh-tokoh unik asli Nusantara seperti para <strong>Punakawan (Semar, Gareng, Petruk, Bagong)</strong> yang melambangkan suara rakyat jelata dan kebijaksanaan sejati.
+
+            <div class="bento-card">
+              <h3 class="bento-title">Estetika & Filosofi Sunan Kalijaga</h3>
+              <p class="bento-text">
+                Transformasi bentuk wayang menjadi stilasi berlekuk proporsional dengan sambungan engsel kuningan (*tuding*) diciptakan oleh para Wali Songo sebagai media pendidikan pekerti dan penanaman budi luhur.
+              </p>
+            </div>
+
+            <div class="bento-card">
+              <h3 class="bento-title">Epos Mahabharata & Nilai Ksatria</h3>
+              <p class="bento-text">
+                Kisah agung Bharatayuddha diadaptasi secara kontekstual, melahirkan lakon carangan bernuansa kebatinan Nusantara yang kaya akan simbol kesetiaan, dharma, serta kejujuran mutlak.
               </p>
             </div>
           </div>
@@ -116,183 +150,217 @@
       </section>
 
       <!-- Section: 4 Filosofi Sakral Kelir -->
-      <section id="filosofi" class="land-section bg-alt">
+      <section id="filosofi" class="land-section bg-subtle">
         <div class="land-container">
-          <div class="section-header">
-            <span class="sec-eyebrow">Makna Kosmologis</span>
-            <h2 class="sec-title">Empat Simbol Filosofis Panggung Kelir</h2>
-            <p class="sec-sub">Setiap elemen dalam pagelaran wayang kulit adalah miniatur simbolik dari alam semesta dan kehidupan manusia.</p>
-            <div class="sec-divider"></div>
+          <div class="section-head">
+            <span class="section-tag">Kosmologi Panggung</span>
+            <h2 class="section-heading">Empat Dimensi Filosofis Pagelaran</h2>
+            <p class="section-subtext">Panggung kelir bukan sekadar media pertunjukan, melainkan representasi makrokosmos dan cermin jiwa.</p>
           </div>
-          <div class="philosophy-grid">
-            <div class="philo-card">
-              <div class="philo-icon">📜</div>
-              <h3>Kelir (Layar Putih)</h3>
-              <span class="philo-meaning">Simbol Jagad Raya</span>
-              <p>Kain putih bentangan layar menggambarkan alam semesta (*makrokosmos*) tempat segala lakon nasib dan dinamika kehidupan manusia berlangsung.</p>
+
+          <div class="philosophy-cards-row">
+            <div class="philo-glass-card">
+              <div class="philo-top-meta">
+                <span class="philo-index">01</span>
+                <span class="philo-symbol">Kelir</span>
+              </div>
+              <h4 class="philo-title">Jagad Raya (Alam Semesta)</h4>
+              <p class="philo-desc">Kain putih bentangan panggung melambangkan alam semesta tempat segala peristiwa hidup dan takdir manusia berproses.</p>
             </div>
-            <div class="philo-card">
-              <div class="philo-icon">🔥</div>
-              <h3>Blencong (Lampu Minyak)</h3>
-              <span class="philo-meaning">Cahaya Ilahi & Kehidupan</span>
-              <p>Lampu minyak kelapa kuno yang menyala di atas kelir melambangkan matahari, rembulan, dan nur ilahi Sang Pencipta yang menghidupkan bayangan.</p>
+
+            <div class="philo-glass-card">
+              <div class="philo-top-meta">
+                <span class="philo-index">02</span>
+                <span class="philo-symbol">Blencong</span>
+              </div>
+              <h4 class="philo-title">Cahaya Kehidupan (Nur Ilahi)</h4>
+              <p class="philo-desc">Lampu minyak kelapa melambangkan matahari dan sumber energi ilahi yang memberikan kehidupan serta menciptakan bayang-bayang.</p>
             </div>
-            <div class="philo-card">
-              <div class="philo-icon">👑</div>
-              <h3>Dalang (Sang Penggerak)</h3>
-              <span class="philo-meaning">Jiwa & Kebijaksanaan</span>
-              <p>Dalang adalah representasi pencipta dan penuntun moral yang menghidupkan setiap karakter, menyuarakan pesan luhur kebajikan bagi penonton.</p>
+
+            <div class="philo-glass-card">
+              <div class="philo-top-meta">
+                <span class="philo-index">03</span>
+                <span class="philo-symbol">Dalang</span>
+              </div>
+              <h4 class="philo-title">Penuntun Kebijaksanaan</h4>
+              <p class="philo-desc">Pemberi napas dan penggerak watak karakter yang menyuarakan etika, kebijaksanaan moral, serta keselarasan kosmis.</p>
             </div>
-            <div class="philo-card">
-              <div class="philo-icon">🎎</div>
-              <h3>Wayang (Kulit Tatahan)</h3>
-              <span class="philo-meaning">Cermin Watak Manusia</span>
-              <p>Berasal dari kata <em>wewayangan</em> (bayangan), mencerminkan pergulatan batiniah manusia antara nafsu angkara dan keluhuran budi pekerti (*dharma*).</p>
+
+            <div class="philo-glass-card">
+              <div class="philo-top-meta">
+                <span class="philo-index">04</span>
+                <span class="philo-symbol">Wayang</span>
+              </div>
+              <h4 class="philo-title">Wewayangan (Cermin Batin)</h4>
+              <p class="philo-desc">Refleksi watak manusia yang senantiasa bergulat antara dorongan nafsu dan panggilan kebajikan budi pekerti luhur.</p>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- Section: Tokoh Pewayangan Populer -->
+      <!-- Section: Tokoh Pewayangan -->
       <section id="tokoh" class="land-section">
         <div class="land-container">
-          <div class="section-header">
-            <span class="sec-eyebrow">Karakter Ikonik</span>
-            <h2 class="sec-title">Mengenal Tokoh Pewayangan Nusantara</h2>
-            <div class="sec-divider"></div>
+          <div class="section-head">
+            <span class="section-tag">Karakter Ikonik</span>
+            <h2 class="section-heading">Arketipe Tokoh Pewayangan</h2>
+            <p class="section-subtext">Setiap figur wayang mencerminkan karakter mental dan kepribadian manusia yang relevan sepanjang zaman.</p>
           </div>
-          <div class="characters-grid">
-            <div class="char-card">
-              <div class="char-header">
-                <h4>Yudhistira (Puntadewa)</h4>
-                <span class="char-role">Sulung Pandawa</span>
+
+          <div class="character-tiles">
+            <div class="char-tile">
+              <div class="char-top">
+                <span class="char-name">Yudhistira</span>
+                <span class="char-badge">Puntadewa</span>
               </div>
-              <p>Raja berdarah putih yang tidak pernah berbohong. Lambang kejujuran mutlak, kesabaran tanpa batas, dan ketulusan hati.</p>
+              <p class="char-summary">Simbol ketulusan dan kebenaran mutlak. Raja berdarah putih yang menolak dusta dan mengutamakan kesabaran.</p>
             </div>
-            <div class="char-card">
-              <div class="char-header">
-                <h4>Bima (Werkudara)</h4>
-                <span class="char-role">Ksatria Jodhipati</span>
+
+            <div class="char-tile">
+              <div class="char-top">
+                <span class="char-name">Bima</span>
+                <span class="char-badge">Werkudara</span>
               </div>
-              <p>Ksatria gagah perkasa berkuku Pancanaka. Lambang ketegasan, anti-kompromi terhadap ketidakadilan, dan bakti tulus pada guru.</p>
+              <p class="char-summary">Ksatria gagah perkasa berkuku Pancanaka. Lambang kejujuran tanpa kompromi, keteguhan prinsip, dan keberanian menegakkan keadilan.</p>
             </div>
-            <div class="char-card">
-              <div class="char-header">
-                <h4>Arjuna (Janaka)</h4>
-                <span class="char-role">Ksatria Madukara</span>
+
+            <div class="char-tile">
+              <div class="char-top">
+                <span class="char-name">Arjuna</span>
+                <span class="char-badge">Janaka</span>
               </div>
-              <p>Pemanah ulung berjiwa luhur dan berparas rupawan. Lambang fokus batiniah, konsentrasi budi, serta kehalusan rasa ksatria.</p>
+              <p class="char-summary">Pemanah ulung berjiwa ksatria luhur. Representasi ketajaman konsentrasi batiniah, kehalusan budi, dan disiplin kesaktian.</p>
             </div>
-            <div class="char-card">
-              <div class="char-header">
-                <h4>Gatotkaca</h4>
-                <span class="char-role">Ksatria Pringgandani</span>
+
+            <div class="char-tile">
+              <div class="char-top">
+                <span class="char-name">Gatotkaca</span>
+                <span class="char-badge">Ksatria Udara</span>
               </div>
-              <p>Ksatria bertulang besi berotot kawat yang mampu terbang melayang di angkasa, simbol kepahlawanan dan kesetiaan menjaga tanah air.</p>
+              <p class="char-summary">Ksatria Pringgandani berotot kawat bertulang besi. Lambang loyalitas pengorbanan tertinggi dalam menjaga kedaulatan bangsanya.</p>
             </div>
-            <div class="char-card">
-              <div class="char-header">
-                <h4>Kyai Semar</h4>
-                <span class="char-role">Pamong Para Ksatria</span>
+
+            <div class="char-tile">
+              <div class="char-top">
+                <span class="char-name">Kyai Semar</span>
+                <span class="char-badge">Pamong Sejati</span>
               </div>
-              <p>Dewa Batara Ismaya yang mengejawantah sebagai rakyat jelata. Simbol kerendahan hati, kearifan lokal, dan penasihat kebenaran sejati.</p>
+              <p class="char-summary">Dewa Batara Ismaya yang menyamar sebagai rakyat jelata. Representasi kearifan lokal, kerendahan hati, dan penuntun sejati para ksatria.</p>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- Section: Panduan Gestur Tangan (Cara Bermain) -->
-      <section id="panduan" class="land-section bg-alt">
+      <!-- Section: Panduan Gestur Tangan (Apple-style Clean Cards) -->
+      <section id="panduan" class="land-section bg-subtle">
         <div class="land-container">
-          <div class="section-header">
-            <span class="sec-eyebrow">Panduan Interaktif</span>
-            <h2 class="sec-title">Cara Menggerakkan Wayang dengan Gestur Tangan</h2>
-            <p class="sec-sub">Webcam Anda akan mendeteksi tangan Anda layaknya seorang dalang yang memegang gapit dan tuding wayang.</p>
-            <div class="sec-divider"></div>
+          <div class="section-head">
+            <span class="section-tag">Kontrol Gestur</span>
+            <h2 class="section-heading">Panduan Menggerakkan Wayang Kulit</h2>
+            <p class="section-subtext">Antarmuka melacak koordinat tangan Anda secara instan tanpa perlu alat pengendali tambahan.</p>
           </div>
-          <div class="gestures-grid">
-            <div class="gesture-card">
-              <div class="gesture-icon">🖐️</div>
-              <h3>Telapak Tangan (Gapit / Badan)</h3>
-              <p>Posisi telapak tangan mengendalikan badan utama wayang. Geser tangan Anda untuk membuat wayang berjalan dan melangkah di atas kelir.</p>
+
+          <div class="gesture-bento-grid">
+            <div class="gesture-item">
+              <div class="gesture-index-pill">01 / Gapit</div>
+              <h3 class="gesture-title">Telapak Tangan (Badan Wayang)</h3>
+              <p class="gesture-text">Posisi telapak tangan menggerakkan cempurit badan utama wayang. Geser tangan secara bebas untuk memposisikan karakter di layar.</p>
             </div>
-            <div class="gesture-card">
-              <div class="gesture-icon">✌️</div>
-              <h3>Ibu Jari & Telunjuk (Tuding / Lengan)</h3>
-              <p>Kedua jari ini bertindak sebagai tangkai penggerak dua lengan wayang. Rentangkan, angkat, atau satukan jari Anda untuk menggerakkan tangannya.</p>
+
+            <div class="gesture-item">
+              <div class="gesture-index-pill">02 / Tuding</div>
+              <h3 class="gesture-title">Ibu Jari & Telunjuk (Lengan)</h3>
+              <p class="gesture-text">Dua jari ini mengendalikan tangkai lengan kiri dan kanan wayang. Buka, tekuk, atau silangkan jari untuk menciptakan gerakan artikulasi lentur.</p>
             </div>
-            <div class="gesture-card">
-              <div class="gesture-icon">🔄</div>
-              <h3>Miringkan Tangan (Tilt / Condong)</h3>
-              <p>Miringkan pergelangan tangan Anda ke kiri atau kanan agar wayang condong membungkuk memberi hormat atau bersiap bertarung.</p>
+
+            <div class="gesture-item">
+              <div class="gesture-index-pill">03 / Artikulasi</div>
+              <h3 class="gesture-title">Rotasi Pergelangan (Tilt)</h3>
+              <p class="gesture-text">Miringkan pergelangan tangan Anda ke kiri atau kanan agar wayang condong membungkuk memberi salam atau bersiap dalam adegan sabetan.</p>
             </div>
-            <div class="gesture-card">
-              <div class="gesture-icon">📏</div>
-              <h3>Jarak ke Kamera (Kedalaman & Bayangan)</h3>
-              <p>Dekatkan tangan Anda ke arah kamera: wayang akan terangkat menjauhi layar kelir dan bayangan di belakangnya akan membesar dan memudar lembut!</p>
+
+            <div class="gesture-item">
+              <div class="gesture-index-pill">04 / Optik 3D</div>
+              <h3 class="gesture-title">Jarak ke Lensa (Kedalaman)</h3>
+              <p class="gesture-text">Dekatkan tangan ke arah kamera untuk mengangkat wayang mendekat ke lampu blencong. Bayangannya membesar dan memudar lembut secara optik.</p>
             </div>
-            <div class="gesture-card highlight-card">
-              <div class="gesture-icon">🤙</div>
-              <h3>Jari Kelingking (Tarian Kiprahan)</h3>
-              <p>Tunjukkan <strong>hanya jari kelingking</strong> Anda: wayang akan secara otomatis menari tarian sakral <em>Kiprahan</em> mengikuti ketukan gending gamelan!</p>
+
+            <div class="gesture-item gesture-featured">
+              <div class="gesture-index-pill">05 / Tarian Sakral</div>
+              <h3 class="gesture-title">Gestur Kelingking (Kiprahan)</h3>
+              <p class="gesture-text">Acungkan hanya jari kelingking Anda dengan jari lain mengepal. Karakter wayang seketika menampilkan koreografi tari klasik Kiprahan mengikuti wirama gamelan.</p>
             </div>
-            <div class="gesture-card">
-              <div class="gesture-icon">👥</div>
-              <h3>Mode 1 Tangan & 2 Tangan</h3>
-              <p>Bisa dimainkan dengan dua tangan (satu tangan memegang wayang kiri, tangan lain wayang kanan) atau gunakan mouse jika tanpa webcam.</p>
+
+            <div class="gesture-item">
+              <div class="gesture-index-pill">06 / Fleksibilitas</div>
+              <h3 class="gesture-title">Mode Multi-Tangan & Kursor</h3>
+              <p class="gesture-text">Dukungan penuh untuk memainkan dua wayang sekaligus dengan dua tangan, satu wayang mandiri, ataupun melalui drag kursor mouse / layar sentuh.</p>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- Section: Keunggulan Teknologi -->
+      <!-- Section: Arsitektur Teknologi -->
       <section id="teknologi" class="land-section">
         <div class="land-container">
-          <div class="section-header">
-            <span class="sec-eyebrow">Dibalik Layar</span>
-            <h2 class="sec-title">Inovasi Teknologi Web Modern</h2>
-            <div class="sec-divider"></div>
+          <div class="section-head">
+            <span class="section-tag">Teknologi Rekayasa</span>
+            <h2 class="section-heading">Arsitektur Grafis & Komputasi On-Device</h2>
+            <p class="section-subtext">Dibangun dengan standar web modern tanpa ketergantungan server untuk menjamin privasi kamera Anda.</p>
           </div>
-          <div class="tech-grid">
-            <div class="tech-card">
-              <h4>MediaPipe Vision AI</h4>
-              <p>Pelacakan 21 titik koordinat sendi tangan secara real-time pada 60 FPS langsung di browser tanpa mengirim data ke server (privasi terjaga penuh).</p>
+
+          <div class="tech-spec-grid">
+            <div class="spec-card">
+              <div class="spec-label">Computer Vision</div>
+              <h4 class="spec-title">MediaPipe Tasks Vision</h4>
+              <p class="spec-detail">Deteksi 21 titik koordinat anatomi tangan pada 60 FPS menggunakan GPU delegate lokal di dalam peramban tanpa transmisi data keluar.</p>
             </div>
-            <div class="tech-card">
-              <h4>WebGL2 Shader Pipeline</h4>
-              <p>Simulasi material tatahan kulit asli, relief bump normal tangent-space, serta efek pencahayaan lampu minyak blencong berkedip dan bayangan dinamis.</p>
+
+            <div class="spec-card">
+              <div class="spec-label">Rendering Engine</div>
+              <h4 class="spec-title">WebGL2 Custom Pipeline</h4>
+              <p class="spec-detail">Shader pencahayaan multi-pass yang merekonstruksi tekstur tatahan kulit sapi bertatah, normal map relief, dan fluktuasi nyala api blencong.</p>
             </div>
-            <div class="tech-card">
-              <h4>Wirama Beat Clock Engine</h4>
-              <p>Sinkronisasi audio gamelan Jawa asli dengan gerak tarian wayang menggunakan timecode beat-grid presisi.</p>
+
+            <div class="spec-card">
+              <div class="spec-label">Audio Synchronization</div>
+              <h4 class="spec-title">Wirama Beat-Grid Engine</h4>
+              <p class="spec-detail">Penyelarasan fisika gerak dan ketukan gending gamelan menggunakan timecode pre-computed beat analysis berakurasi milidetik.</p>
             </div>
-            <div class="tech-card">
-              <h4>Multi-Device Responsive</h4>
-              <p>Didesain mulus untuk segala ukuran layar: iPhone, Android, iPad, Tablet, MacBook, laptop, dan PC Windows.</p>
+
+            <div class="spec-card">
+              <div class="spec-label">Universal Device Compatibility</div>
+              <h4 class="spec-title">Adaptive Viewport Engine</h4>
+              <p class="spec-detail">Penyesuaian skala hierarkis otomatis untuk iPhone, iPad, Android, MacBook, dan PC desktop tanpa distorsi aspek rasio.</p>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- Section: CTA Final -->
+      <!-- CTA Section -->
       <section class="land-cta-section">
-        <div class="land-container cta-box">
-          <h2>Siap Menjadi Dalang Hari Ini?</h2>
-          <p>Nikmati pengalaman budaya interaktif yang memukau. 100% Gratis & tanpa perlu mengunduh aplikasi tambahan apa pun.</p>
-          <button id="btn-bottom-play" class="btn btn-gold btn-large">
-            <span>🎭 Buka Panggung Virtual & Mulai Mainkan</span>
-          </button>
+        <div class="land-container">
+          <div class="cta-inner-panel">
+            <div class="cta-shine"></div>
+            <h2 class="cta-heading">Panggung Kelir Telah Siap.</h2>
+            <p class="cta-subheading">Nikmati pengalaman pagelaran wayang kulit virtual langsung di layar Anda. Sepenuhnya gratis dan ramah privasi.</p>
+            <button id="btn-bottom-play" class="apple-btn apple-btn-primary cta-action-btn">
+              <span>Masuk ke Panggung Virtual</span>
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                <path d="M8 5v14l11-7z" />
+              </svg>
+            </button>
+          </div>
         </div>
       </section>
 
       <!-- Landing Page Footer (CENTER TENGAH SESUAI PERMINTAAN USER) -->
       <footer class="land-footer">
         <div class="land-container footer-center-content">
-          <!-- Exact Author Watermark Badge -->
           <div class="footer-author-group">
             <span class="footer-by-label">Product by</span>
             <div class="creator-pill footer-pill">
-              <img src="assets/profile.webp" alt="Yossika Putra" class="creator-avatar" />
+              <img src="assets/profile.webp" alt="Yossika Putra" class="creator-avatar" width="28" height="28" />
               <span class="creator-name">Yossika Putra</span>
               <a href="https://yossikaputra.my.id/" target="_blank" rel="noopener noreferrer" class="portfolio-tag" title="Kunjungi Portofolio Resmi Yossika Putra">
                 <span class="online-dot"></span>
@@ -318,10 +386,51 @@
             </div>
           </div>
           <p class="copyright-note">
-            © 2026 Wayang Kulit Digital Indonesia · Mahakarya Seni Digital & Budaya Nusantara oleh <strong>Yossika Putra Erlangga</strong>.
+            © 2026 Wayang Kulit Digital Indonesia · Mahakarya Seni Budaya Nusantara & Inovasi Kreatif oleh <strong>Yossika Putra Erlangga</strong>.
           </p>
         </div>
       </footer>
+    </div>
+
+    <!-- ==================== INTERACTIVE 3-TIER IMAGE ZOOM MODAL ==================== -->
+    <div id="image-zoom-modal" class="image-modal-backdrop" hidden aria-hidden="true" role="dialog" aria-label="Detail Karakter Wayang">
+      <div class="modal-dialog-panel">
+        <header class="modal-topbar">
+          <div class="modal-meta-left">
+            <span class="modal-tag">Detail Karakter</span>
+            <span class="modal-subtag">Tatahan Kulit Asli & Gradasi Pewarnaan</span>
+          </div>
+          <div class="modal-controls-right">
+            <button id="btn-zoom-in" class="modal-btn-icon" title="Perbesar (Zoom In)">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
+            </button>
+            <button id="btn-zoom-out" class="modal-btn-icon" title="Perkecil (Zoom Out)">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
+            </button>
+            <button id="btn-zoom-reset" class="modal-btn-icon" title="Reset Zoom">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path></svg>
+            </button>
+            <button id="btn-close-modal" class="modal-btn-icon modal-close" title="Tutup (Esc)">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
+          </div>
+        </header>
+        
+        <div class="modal-viewport" id="modal-viewport">
+          <!-- 3-Tier Image: Tier 2 Preview -> Tier 3 Full High-Res WebP Zoom -->
+          <div class="modal-image-wrapper" id="modal-image-wrapper">
+            <img id="modal-zoom-img" 
+                 src="assets/puppet-preview.webp" 
+                 data-highres="assets/puppet-zoom.webp" 
+                 alt="Detail Resolusi Tinggi Wayang Kulit" 
+                 class="modal-active-img" />
+          </div>
+        </div>
+
+        <footer class="modal-footer-caption">
+          <span>Gunakan scroll wheel, tombol zoom, atau drag untuk melihat detail ukiran tatahan kulit.</span>
+        </footer>
+      </div>
     </div>
 
     <!-- ==================== INTERACTIVE STAGE VIEW ==================== -->
@@ -333,17 +442,18 @@
       <header id="stage-header" class="stage-header">
         <div class="stage-header-left">
           <button id="btn-back-home" class="btn-back-home" title="Kembali ke Beranda & Informasi Wayang">
-            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
-              <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
+            <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M19 12H5"></path>
+              <path d="M12 19l-7-7 7-7"></path>
             </svg>
-            <span>← Info / Beranda</span>
+            <span>Beranda</span>
           </button>
 
           <!-- Watermark Badge in Stage Header -->
           <div id="author-badge" class="author-badge" aria-label="Author Credit">
             <span class="product-by">Product by</span>
             <div class="creator-pill">
-              <img src="assets/profile.webp" alt="Yossika Putra" class="creator-avatar" />
+              <img src="assets/profile.webp" alt="Yossika Putra" class="creator-avatar" width="24" height="24" />
               <span class="creator-name">Yossika Putra</span>
               <a href="https://yossikaputra.my.id/" target="_blank" rel="noopener noreferrer" class="portfolio-tag" title="Visit Portfolio">
                 <span class="online-dot"></span>
@@ -371,12 +481,12 @@
         </div>
 
         <div class="stage-header-right">
-          <button id="sound-toggle" class="icon-btn sound-btn" aria-label="Mute music" aria-pressed="false" title="Nyalakan / Matikan Gamelan (M)">
-            <svg class="on" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M4 9v6h4l5 4V5L8 9H4Zm12.5 3a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4Zm-2.5-8.8v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6Z"/></svg>
-            <svg class="off" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M4 9v6h4l5 4V5L8 9H4Zm12.6 3 2.7-2.7-1.4-1.4-2.7 2.7-2.7-2.7-1.4 1.4 2.7 2.7-2.7 2.7 1.4 1.4 2.7-2.7 2.7 2.7 1.4-1.4-2.7-2.7Z" transform="translate(2 0)"/></svg>
+          <button id="sound-toggle" class="icon-btn sound-btn" aria-label="Mute music" aria-pressed="false" title="Audio Gamelan (M)">
+            <svg class="on" viewBox="0 0 24 24" width="17" height="17" aria-hidden="true"><path fill="currentColor" d="M4 9v6h4l5 4V5L8 9H4Zm12.5 3a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4Zm-2.5-8.8v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6Z"/></svg>
+            <svg class="off" viewBox="0 0 24 24" width="17" height="17" aria-hidden="true"><path fill="currentColor" d="M4 9v6h4l5 4V5L8 9H4Zm12.6 3 2.7-2.7-1.4-1.4-2.7 2.7-2.7-2.7-1.4 1.4 2.7 2.7-2.7 2.7 1.4 1.4 2.7-2.7 2.7 2.7 1.4-1.4-2.7-2.7Z" transform="translate(2 0)"/></svg>
           </button>
-          <button id="settings-toggle" class="icon-btn" aria-label="Settings" aria-expanded="false" title="Pengaturan Panggung">
-            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M19.4 13a7.6 7.6 0 0 0 0-2l2.1-1.6-2-3.5-2.5 1a7.3 7.3 0 0 0-1.7-1L15 3h-4l-.4 2.7a7.3 7.3 0 0 0-1.7 1l-2.5-1-2 3.5L6.6 11a7.6 7.6 0 0 0 0 2l-2.1 1.6 2 3.5 2.5-1a7.3 7.3 0 0 0 1.7 1L11 21h4l.4-2.7a7.3 7.3 0 0 0 1.7-1l2.5 1 2-3.5ZM13 15.5a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7Z" transform="translate(-1 0)"/></svg>
+          <button id="settings-toggle" class="icon-btn" aria-label="Settings" aria-expanded="false" title="Pengaturan">
+            <svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true"><path fill="currentColor" d="M19.4 13a7.6 7.6 0 0 0 0-2l2.1-1.6-2-3.5-2.5 1a7.3 7.3 0 0 0-1.7-1L15 3h-4l-.4 2.7a7.3 7.3 0 0 0-1.7 1l-2.5-1-2 3.5L6.6 11a7.6 7.6 0 0 0 0 2l-2.1 1.6 2 3.5 2.5-1a7.3 7.3 0 0 0 1.7 1L11 21h4l.4-2.7a7.3 7.3 0 0 0 1.7-1l2.5 1 2-3.5ZM13 15.5a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7Z" transform="translate(-1 0)"/></svg>
           </button>
         </div>
       </header>
@@ -445,7 +555,7 @@
           <input type="range" id="opt-volume" min="0" max="1" step="0.01" value="0.6" />
         </label>
         <div class="settings-credit">
-          Crafted with ♥ by <a href="https://yossikaputra.my.id/" target="_blank" rel="noopener noreferrer">Yossika Putra</a>
+          Crafted with care by <a href="https://yossikaputra.my.id/" target="_blank" rel="noopener noreferrer">Yossika Putra</a>
         </div>
       </aside>
 
@@ -461,6 +571,8 @@
       <div id="error" class="panel error" hidden></div>
     </div>
 
+    <!-- Motion Library Bundle -->
+    <script src="node_modules/motion/dist/motion.js"></script>
     <script type="module" src="src/main.js"></script>
   </body>
 </html>

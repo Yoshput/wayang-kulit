@@ -25,10 +25,19 @@ const MIME_TYPES = {
 };
 
 const server = http.createServer((req, res) => {
-  // CORS & Security headers
+  // Enterprise Industrial Security Headers
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+  res.setHeader('X-Frame-Options', 'SAMEORIGIN');
+  res.setHeader('X-XSS-Protection', '1; mode=block');
+  res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
+  res.setHeader('Permissions-Policy', 'camera=(self), microphone=(), geolocation=()');
+  res.setHeader('Cross-Origin-Opener-Policy', 'same-origin');
+  res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin');
+
+  // CORS headers
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, HEAD, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', '*');
+  res.setHeader('Access-Control-Allow-Headers', 'Range, Content-Type, Accept');
 
   if (req.method === 'OPTIONS') {
     res.writeHead(204);
@@ -36,11 +45,20 @@ const server = http.createServer((req, res) => {
     return;
   }
 
+  // Path Traversal Security Protection
   const urlPath = req.url.split('?')[0];
-  let safePath = path.normalize(urlPath).replace(/^(\.\.[\/\\])+/, '');
+  const decodedPath = decodeURIComponent(urlPath);
+  let safePath = path.normalize(decodedPath).replace(/^(\.\.[\/\\])+/, '');
   if (safePath === '/' || safePath === '\\') safePath = '/index.html';
 
   const filePath = path.join(__dirname, safePath);
+
+  // Prevent directory escape
+  if (!filePath.startsWith(__dirname)) {
+    res.writeHead(403, { 'Content-Type': 'text/plain; charset=utf-8' });
+    res.end('403 Forbidden');
+    return;
+  }
 
   fs.stat(filePath, (err, stats) => {
     if (err || !stats.isFile()) {
@@ -54,13 +72,28 @@ const server = http.createServer((req, res) => {
     const total = stats.size;
     const range = req.headers.range;
 
-    // Handle HTTP Range requests (crucial for audio seeking & smooth looping)
+    // Cache control policy
+    if (ext === '.html') {
+      res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+    } else if (['.webp', '.png', '.jpg', '.mp3', '.wasm', '.svg'].includes(ext)) {
+      res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+    } else {
+      res.setHeader('Cache-Control', 'public, max-age=3600');
+    }
+
+    // Handle HTTP Range requests for audio streaming
     if (range) {
       const parts = range.replace(/bytes=/, '').split('-');
       const start = parseInt(parts[0], 10);
       const end = parts[1] ? parseInt(parts[1], 10) : total - 1;
-      const chunksize = end - start + 1;
 
+      if (start >= total || end >= total) {
+        res.writeHead(416, { 'Content-Range': `bytes */${total}` });
+        res.end();
+        return;
+      }
+
+      const chunksize = end - start + 1;
       res.writeHead(206, {
         'Content-Range': `bytes ${start}-${end}/${total}`,
         'Accept-Ranges': 'bytes',
