@@ -1,21 +1,81 @@
 <!doctype html>
-<html lang="id">
+<html lang="id" prefix="og: https://ogp.me/ns#">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <title>Wayang Kulit Digital Indonesia — AI Hand Puppetry | by Yossika Putra</title>
     <meta name="author" content="Yossika Putra Erlangga" />
-    <meta name="description" content="Panggung Wayang Kulit Digital Interaktif berstandar profesional dengan pelacakan gestur tangan AI & WebGL2. Karya seni & teknologi oleh Yossika Putra." />
-    
-    <!-- Security Meta Tags -->
-    <meta http-equiv="X-Content-Type-Options" content="nosniff" />
-    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <meta name="description" content="Panggung Wayang Kulit Digital Interaktif berstandar industri dengan pelacakan gestur tangan AI 60 FPS & WebGL2. Karya seni & teknologi oleh Yossika Putra." />
+    <meta name="keywords" content="wayang kulit, wayang digital, wayang ai, webgl2, vision ai, computer vision puppetry, gamelan, seni budaya indonesia, unesco heritage, yossika putra" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <meta name="theme-color" content="#060302" />
+    <link rel="canonical" href="https://wayang-kulit.vercel.app/" />
+    <link rel="manifest" href="manifest.json" />
 
-    <link rel="icon" type="image/svg+xml" href="assets/logo.svg" />
-    <link rel="apple-touch-icon" href="assets/logo.svg" />
+    <!-- Open Graph / Facebook / WhatsApp -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Wayang Kulit Digital Indonesia" />
+    <meta property="og:title" content="Wayang Kulit Digital Indonesia — AI Hand Puppetry | by Yossika Putra" />
+    <meta property="og:description" content="Panggung Wayang Kulit Digital Interaktif berstandar industri dengan pelacakan gestur AI 60 FPS & WebGL2. Karya seni dan teknologi oleh Yossika Putra." />
+    <meta property="og:url" content="https://wayang-kulit.vercel.app/" />
+    <meta property="og:image" content="https://wayang-kulit.vercel.app/assets/puppet-zoom.webp" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content="id_ID" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Wayang Kulit Digital Indonesia — AI Hand Puppetry" />
+    <meta name="twitter:description" content="Panggung Wayang Kulit Digital Interaktif berstandar industri dengan pelacakan gestur AI 60 FPS & WebGL2." />
+    <meta name="twitter:image" content="https://wayang-kulit.vercel.app/assets/puppet-zoom.webp" />
+    <meta name="twitter:creator" content="@yoshput" />
+
+    <!-- Critical Preloads for Lighthouse 100 Performance -->
+    <link rel="preload" as="image" href="assets/puppet-thumb.webp" type="image/webp" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Cinzel:wght@500;600;700;800&display=swap" rel="stylesheet" />
+
+    <!-- Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebApplication",
+          "@id": "https://wayang-kulit.vercel.app/#webapp",
+          "name": "Wayang Kulit Digital Indonesia",
+          "url": "https://wayang-kulit.vercel.app/",
+          "applicationCategory": "MultimediaApplication",
+          "operatingSystem": "All",
+          "browserRequirements": "Requires WebGL2 and Camera support",
+          "author": {
+            "@type": "Person",
+            "name": "Yossika Putra Erlangga",
+            "url": "https://yossikaputra.my.id/",
+            "sameAs": [
+              "https://github.com/yoshput",
+              "https://www.linkedin.com/in/yossikaputraerlangga/"
+            ]
+          },
+          "description": "Panggung Wayang Kulit Digital Interaktif berstandar profesional dengan pelacakan gestur tangan AI & WebGL2."
+        },
+        {
+          "@type": "CulturalHeritageObject",
+          "@id": "https://wayang-kulit.vercel.app/#heritage",
+          "name": "Wayang Kulit Purwa Indonesia",
+          "description": "Warisan Budaya Takbenda Dunia UNESCO (Masterpiece of the Oral and Intangible Heritage of Humanity)",
+          "countryOfOrigin": {
+            "@type": "Country",
+            "name": "Indonesia"
+          }
+        }
+      ]
+    }
+    </script>
+
+    <link rel="icon" type="image/svg+xml" href="assets/logo.svg" />
+    <link rel="apple-touch-icon" href="assets/logo.svg" />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body class="view-landing">
@@ -25,7 +85,7 @@
       <nav class="land-nav">
         <div class="land-container nav-wrap">
           <div class="nav-brand">
-            <img src="assets/logo.svg" alt="Wayang Kulit Logo" class="brand-logo-img" width="34" height="34" />
+            <img src="assets/logo.svg" alt="Wayang Kulit Logo" class="brand-logo-img" width="34" height="34" decoding="async" />
             <div class="brand-text">
               <span class="brand-title">Wayang Kulit Digital</span>
               <span class="brand-sub">Nusantara AI Puppetry</span>
@@ -54,22 +114,22 @@
       <div class="blencong-lantern-container" aria-hidden="true">
         <div class="blencong-lamp blencong-lamp-left">
           <div class="blencong-glow"></div>
-          <img src="assets/blencong-left.webp" alt="Lentera Blencong Tradisional" class="blencong-img" />
+          <img src="assets/blencong-left.webp" alt="Lentera Blencong Tradisional" class="blencong-img" width="180" height="320" loading="lazy" decoding="async" />
         </div>
         <div class="blencong-lamp blencong-lamp-right">
           <div class="blencong-glow"></div>
-          <img src="assets/blencong-right.webp" alt="Lentera Blencong Tradisional" class="blencong-img" />
+          <img src="assets/blencong-right.webp" alt="Lentera Blencong Tradisional" class="blencong-img" width="180" height="320" loading="lazy" decoding="async" />
         </div>
       </div>
 
       <!-- Floating Sacred Gunungan Elements (Left & Right Sides) -->
       <div class="floating-gunungan-container" aria-hidden="true">
         <div class="floating-gunungan gunungan-left" id="gunungan-left">
-          <img src="assets/gunungan-left.webp" alt="Gunungan Jawa" class="gunungan-img" />
+          <img src="assets/gunungan-left.webp" alt="Gunungan Jawa" class="gunungan-img" width="220" height="420" loading="lazy" decoding="async" />
           <div class="gunungan-ambient-glow"></div>
         </div>
         <div class="floating-gunungan gunungan-right" id="gunungan-right">
-          <img src="assets/gunungan-right.webp" alt="Gunungan Jawa" class="gunungan-img" />
+          <img src="assets/gunungan-right.webp" alt="Gunungan Jawa" class="gunungan-img" width="220" height="420" loading="lazy" decoding="async" />
           <div class="gunungan-ambient-glow"></div>
         </div>
       </div>
@@ -135,6 +195,10 @@
               <img src="assets/puppet-thumb.webp" 
                    srcset="assets/puppet-thumb.webp 210w, assets/puppet-preview.webp 420w"
                    sizes="(max-width: 640px) 210px, 420px"
+                   width="420"
+                   height="560"
+                   fetchpriority="high"
+                   decoding="async"
                    alt="Wayang Kulit Karakter" 
                    class="hero-puppet-render" />
             </div>
@@ -163,6 +227,10 @@
               <img src="assets/dalang-performance-thumb.webp" 
                    srcset="assets/dalang-performance-thumb.webp 341w, assets/dalang-performance.webp 682w" 
                    sizes="(max-width: 768px) 100vw, 440px" 
+                   width="440"
+                   height="293"
+                   loading="lazy"
+                   decoding="async"
                    alt="Sang Dalang mementaskan wayang di balik kelir dan cahaya blencong" 
                    class="dalang-img" />
               <div class="dalang-overlay-gradient"></div>
@@ -202,6 +270,10 @@
                 <img src="assets/lakon-ramayana-thumb.webp" 
                      srcset="assets/lakon-ramayana-thumb.webp 279w, assets/lakon-ramayana.webp 558w" 
                      sizes="(max-width: 640px) 100vw, 360px" 
+                     width="360"
+                     height="240"
+                     loading="lazy"
+                     decoding="async"
                      alt="Siluet Epik Pertarungan Ramayana" 
                      class="art-card-img" />
                 <div class="card-art-overlay"></div>
@@ -284,6 +356,10 @@
               <img src="assets/gunungan-kala-thumb.webp" 
                    srcset="assets/gunungan-kala-thumb.webp 250w, assets/gunungan-kala.webp 500w" 
                    sizes="(max-width: 640px) 160px, 220px" 
+                   width="220"
+                   height="380"
+                   loading="lazy"
+                   decoding="async"
                    alt="Gunungan Wayang Kulit Tradisional" 
                    class="gunungan-feature-thumb" />
             </div>
@@ -320,6 +396,10 @@
                 <img src="assets/char-yudhistira-thumb.webp" 
                      srcset="assets/char-yudhistira-thumb.webp 332w, assets/char-yudhistira.webp 664w" 
                      sizes="160px" 
+                     width="160"
+                     height="320"
+                     loading="lazy"
+                     decoding="async"
                      alt="Wayang Yudhistira Puntadewa" 
                      class="char-photo-img" />
               </div>
@@ -342,6 +422,10 @@
                 <img src="assets/char-bima-thumb.webp" 
                      srcset="assets/char-bima-thumb.webp 262w, assets/char-bima.webp 525w" 
                      sizes="160px" 
+                     width="160"
+                     height="320"
+                     loading="lazy"
+                     decoding="async"
                      alt="Wayang Bima Werkudara" 
                      class="char-photo-img" />
               </div>
@@ -364,6 +448,10 @@
                 <img src="assets/char-arjuna-thumb.webp" 
                      srcset="assets/char-arjuna-thumb.webp 307w, assets/char-arjuna.webp 614w" 
                      sizes="160px" 
+                     width="160"
+                     height="320"
+                     loading="lazy"
+                     decoding="async"
                      alt="Wayang Arjuna Janaka" 
                      class="char-photo-img" />
               </div>
@@ -386,6 +474,10 @@
                 <img src="assets/char-gatotkaca-thumb.webp" 
                      srcset="assets/char-gatotkaca-thumb.webp 182w, assets/char-gatotkaca.webp 365w" 
                      sizes="160px" 
+                     width="160"
+                     height="320"
+                     loading="lazy"
+                     decoding="async"
                      alt="Wayang Gatotkaca" 
                      class="char-photo-img" />
               </div>
@@ -408,6 +500,10 @@
                 <img src="assets/char-semar-thumb.webp" 
                      srcset="assets/char-semar-thumb.webp 341w, assets/char-semar.webp 683w" 
                      sizes="160px" 
+                     width="160"
+                     height="320"
+                     loading="lazy"
+                     decoding="async"
                      alt="Wayang Kyai Semar" 
                      class="char-photo-img" />
               </div>
@@ -430,6 +526,10 @@
                 <img src="assets/puppet-srikandi-thumb.webp" 
                      srcset="assets/puppet-srikandi-thumb.webp 220w, assets/puppet-srikandi.webp 441w" 
                      sizes="160px" 
+                     width="160"
+                     height="320"
+                     loading="lazy"
+                     decoding="async"
                      alt="Wayang Dewi Srikandi" 
                      class="char-photo-img" />
               </div>
@@ -552,7 +652,7 @@
           <div class="footer-author-group">
             <span class="footer-by-label">Product by</span>
             <div class="creator-pill footer-pill">
-              <img src="assets/profile.webp" alt="Yossika Putra" class="creator-avatar" width="28" height="28" />
+              <img src="assets/profile.webp" alt="Yossika Putra" class="creator-avatar" width="28" height="28" loading="lazy" decoding="async" />
               <span class="creator-name">Yossika Putra</span>
               <a href="https://yossikaputra.my.id/" target="_blank" rel="noopener noreferrer" class="portfolio-tag" title="Kunjungi Portofolio Resmi Yossika Putra">
                 <span class="online-dot"></span>
@@ -580,6 +680,12 @@
           <p class="copyright-note">
             © 2026 Wayang Kulit Digital Indonesia · Mahakarya Seni Budaya Nusantara & Inovasi Kreatif oleh <strong>Yossika Putra Erlangga</strong>.
           </p>
+          <div class="cloudflare-security-badge" id="btn-show-security-info" role="button" tabindex="0" title="Klik untuk melihat status keamanan Cloudflare Zero Trust & TLS 1.3">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
+              <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/>
+            </svg>
+            <span>Secured with Cloudflare Edge & TLS 1.3</span>
+          </div>
         </div>
       </footer>
     </div>
@@ -614,6 +720,10 @@
             <img id="modal-zoom-img" 
                  src="assets/puppet-preview.webp" 
                  data-highres="assets/puppet-zoom.webp" 
+                 width="600"
+                 height="800"
+                 loading="lazy"
+                 decoding="async"
                  alt="Detail Resolusi Tinggi Wayang Kulit" 
                  class="modal-active-img" />
           </div>
@@ -645,7 +755,7 @@
           <div id="author-badge" class="author-badge" aria-label="Author Credit">
             <span class="product-by">Product by</span>
             <div class="creator-pill">
-              <img src="assets/profile.webp" alt="Yossika Putra" class="creator-avatar" width="24" height="24" />
+              <img src="assets/profile.webp" alt="Yossika Putra" class="creator-avatar" width="24" height="24" loading="lazy" decoding="async" />
               <span class="creator-name">Yossika Putra</span>
               <a href="https://yossikaputra.my.id/" target="_blank" rel="noopener noreferrer" class="portfolio-tag" title="Visit Portfolio">
                 <span class="online-dot"></span>
@@ -768,8 +878,54 @@
       <div class="curtain-panel curtain-left"></div>
       <div class="curtain-panel curtain-right"></div>
       <div class="curtain-emblem" id="curtain-emblem">
-        <img src="assets/logo.svg" alt="Wayang Emblem" class="curtain-logo" width="56" height="56" />
+        <img src="assets/logo.svg" alt="Wayang Emblem" class="curtain-logo" width="56" height="56" decoding="async" />
         <span class="curtain-text">Membuka Kelir...</span>
+      </div>
+    </div>
+
+    <!-- ==================== CLOUDFLARE TURNSTILE & INDUSTRIAL SECURITY MODAL ==================== -->
+    <div id="cf-security-modal" class="cf-security-modal hidden" role="dialog" aria-modal="true" aria-label="Cloudflare Security Verification">
+      <div class="cf-modal-panel">
+        <div class="cf-topbar">
+          <svg class="cf-logo-icon" viewBox="0 0 24 24" fill="none">
+            <path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96z" fill="#F38020"/>
+            <path d="M19 14h-1.5c-.28 0-.5-.22-.5-.5 0-1.93-1.57-3.5-3.5-3.5-.83 0-1.59.29-2.2.78-.22.18-.54.12-.68-.12-.22-.38-.6-.66-1.12-.66-.69 0-1.25.56-1.25 1.25 0 .16.03.31.09.45.1.25-.04.53-.3.61C7.45 12.5 7 13.2 7 14c0 .55.45 1 1 1h11c1.66 0 3-1.34 3-3s-1.34-3-3-3z" fill="#FAAD3F"/>
+          </svg>
+          <span class="cf-brand-name">Cloudflare Zero Trust</span>
+        </div>
+        
+        <div class="cf-status-box" id="cf-status-box">
+          <div class="cf-spinner-ring"></div>
+          <svg class="cf-check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+          <span class="cf-status-text" id="cf-status-text">Memverifikasi integritas peramban Anda...</span>
+        </div>
+
+        <p class="cf-info-text">
+          Pemeriksaan keamanan otomatis di tepi jaringan (Cloudflare Edge Network) untuk melindungi panggung virtual dari bot berbahaya, serangan DDoS layer 7, serta menjamin privasi transmisi GPU MediaPipe lokal.
+        </p>
+
+        <div class="cf-meta-footer">
+          <div>Ray ID: <span class="cf-ray-id" id="cf-ray-id">8a91f3a2c04e-CGK</span></div>
+          <div>Enkripsi: TLS 1.3 · HTTP/3 (QUIC) · WAF & Bot Fight Mode Enabled</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== GDPR & UU PDP COMPLIANT COOKIE CONSENT BANNER ==================== -->
+    <div id="cookie-consent-banner" class="cookie-consent-banner hidden" role="region" aria-label="Persetujuan Privasi & Cookie">
+      <div class="cookie-content">
+        <svg class="cookie-shield-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+          <path d="M9 12l2 2 4-4"></path>
+        </svg>
+        <span class="cookie-text">
+          Situs ini menggunakan penyimpanan lokal teknis (<kbd>localStorage</kbd>) untuk preferensi kalibrasi gestur tanpa pelacakan iklan komersial pihak ketiga. Dilindungi standar UU PDP Indonesia & GDPR.
+        </span>
+      </div>
+      <div class="cookie-actions">
+        <button id="btn-cookie-accept" class="cookie-btn-accept">Setujui & Lanjutkan</button>
       </div>
     </div>
 

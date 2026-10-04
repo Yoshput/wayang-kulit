@@ -1,0 +1,17 @@
+{
+  "name": "Wayang Kulit Digital Indonesia — AI Puppetry",
+  "short_name": "Wayang Kulit",
+  "description": "Panggung Wayang Kulit Digital Interaktif berstandar profesional dengan pelacakan gestur AI & WebGL2 karya Yossika Putra.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#060302",
+  "theme_color": "#d9a441",
+  "icons": [
+    {
+      "src": "assets/logo.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

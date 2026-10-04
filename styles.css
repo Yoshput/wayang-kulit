@@ -1984,9 +1984,272 @@ body.ui-hidden .settings { opacity: 0; pointer-events: none; }
 }
 
 @media (max-width: 768px) {
-  .blencong-lantern-container {
-    display: none;
+  .blencong-lamp-left {
+    left: 8px;
+    width: 52px;
   }
+  .blencong-lamp-right {
+    right: 8px;
+    width: 52px;
+  }
+  .blencong-glow {
+    width: 140px;
+    height: 140px;
+  }
+}
+
+/* =========================================================
+   CLOUDFLARE TURNSTILE & INDUSTRIAL SECURITY MODAL
+   ========================================================= */
+.cf-security-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(6, 3, 2, 0.92);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  z-index: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  transition: opacity 0.4s ease, visibility 0.4s ease;
+}
+
+.cf-security-modal.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.cf-modal-panel {
+  background: linear-gradient(160deg, rgba(28, 18, 12, 0.95) 0%, rgba(14, 9, 6, 0.98) 100%);
+  border: 1.5px solid var(--border-gold);
+  border-radius: 28px;
+  padding: 36px 32px;
+  max-width: 460px;
+  width: 100%;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.8), 0 0 50px rgba(217, 164, 65, 0.15);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.cf-topbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.cf-logo-icon {
+  width: 28px;
+  height: 28px;
+}
+
+.cf-brand-name {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #fff4e0;
+  text-transform: uppercase;
+}
+
+.cf-status-box {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: rgba(255, 235, 200, 0.04);
+  border: 1px solid rgba(217, 164, 65, 0.25);
+  border-radius: 16px;
+  padding: 14px 18px;
+  width: 100%;
+}
+
+.cf-spinner-ring {
+  width: 22px;
+  height: 22px;
+  border: 2.5px solid rgba(217, 164, 65, 0.25);
+  border-top-color: var(--gold-primary);
+  border-radius: 50%;
+  animation: cfSpin 0.9s linear infinite;
+  flex-shrink: 0;
+}
+
+.cf-check-icon {
+  display: none;
+  width: 22px;
+  height: 22px;
+  color: #4ade80;
+  flex-shrink: 0;
+}
+
+.cf-status-box.verified .cf-spinner-ring {
+  display: none;
+}
+
+.cf-status-box.verified .cf-check-icon {
+  display: block;
+}
+
+.cf-status-text {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-primary);
+  text-align: left;
+}
+
+.cf-info-text {
+  font-size: 12.5px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.cf-meta-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 11px;
+  color: var(--text-muted);
+  width: 100%;
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+  padding-top: 16px;
+}
+
+.cf-ray-id {
+  font-family: monospace;
+  color: var(--gold-sheen);
+  letter-spacing: 0.05em;
+}
+
+@keyframes cfSpin {
+  to { transform: rotate(360deg); }
+}
+
+/* =========================================================
+   INDUSTRIAL COOKIE CONSENT BANNER (UU PDP & GDPR COMPLIANT)
+   ========================================================= */
+.cookie-consent-banner {
+  position: fixed;
+  bottom: calc(20px + var(--safe-bottom));
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: min(640px, calc(100% - 32px));
+  width: 100%;
+  background: rgba(18, 11, 7, 0.92);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--border-gold);
+  border-radius: 22px;
+  padding: 18px 24px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7), 0 0 30px rgba(217, 164, 65, 0.12);
+  z-index: 450;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease;
+}
+
+.cookie-consent-banner.hidden {
+  transform: translate(-50%, 40px);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.cookie-content {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.cookie-shield-svg {
+  width: 26px;
+  height: 26px;
+  color: var(--gold-primary);
+  flex-shrink: 0;
+}
+
+.cookie-text {
+  font-size: 12.5px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.cookie-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.cookie-btn-accept {
+  background: linear-gradient(135deg, #f2c76b 0%, #d4af37 100%);
+  color: #070402;
+  border: none;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 9px 18px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: transform 0.2s, filter 0.2s;
+  white-space: nowrap;
+}
+
+.cookie-btn-accept:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.08);
+}
+
+.cookie-btn-info {
+  background: transparent;
+  color: var(--text-muted);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 11.5px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color 0.2s;
+}
+
+.cookie-btn-info:hover {
+  color: var(--text-secondary);
+}
+
+@media (max-width: 640px) {
+  .cookie-consent-banner {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 14px;
+    padding: 16px;
+  }
+  .cookie-actions {
+    justify-content: flex-end;
+  }
+}
+
+/* Cloudflare Footer Security Badge */
+.cloudflare-security-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(217, 164, 65, 0.2);
+  padding: 6px 14px;
+  border-radius: 30px;
+  font-size: 11px;
+  color: var(--text-secondary);
+  margin-top: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.cloudflare-security-badge:hover {
+  border-color: var(--gold-primary);
+  color: var(--gold-sheen);
+  background: rgba(217, 164, 65, 0.08);
 }
 
 @media (max-width: 640px) {
