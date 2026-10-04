@@ -3,11 +3,6 @@
   "version": "1.0.0",
   "type": "module",
   "description": "Interactive WebGL Wayang Kulit shadow puppetry driven by real-time webcam hand tracking and gestures. Created by Yossika Putra.",
-  "scripts": {
-    "dev": "node dev-server.js",
-    "start": "node dev-server.js",
-    "preview": "node dev-server.js"
-  },
   "keywords": [
     "wayang",
     "wayang-kulit",
