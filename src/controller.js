@@ -278,9 +278,12 @@ export class Controller {
   demoInput(t, view) {
     // attract loop: two characters meet, talk with their hands, back away, and pass each other
     const cx = view.x + view.w / 2;
-    const drift = Math.sin(t * 0.13) * view.w * 0.08;
-    const gap = view.w * (0.36 + 0.14 * Math.sin(t * 0.42));
-    const floor = view.y + view.h * 0.6;
+    const drift = Math.sin(t * 0.13) * view.w * 0.06;
+    const isNarrow = view.w < 850;
+    const gap = isNarrow
+      ? view.w * (0.44 + 0.08 * Math.sin(t * 0.42))
+      : view.w * (0.36 + 0.14 * Math.sin(t * 0.42));
+    const floor = view.y + view.h * (isNarrow ? 0.64 : 0.6);
     const talk = (phase, amp) => ({
       left: { type: 'rel', dx: -0.95 + Math.sin(t * 1.7 + phase) * 0.35 * amp, dy: -0.25 + Math.sin(t * 1.1 + phase) * 0.8 * amp },
       right: { type: 'rel', dx: 0.55 + Math.sin(t * 1.3 + phase) * 0.3, dy: 0.45 + Math.sin(t * 0.9 + phase) * 0.55 },

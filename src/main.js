@@ -51,6 +51,8 @@ applyFacing();
 
 // Visible part of the 1920×1080 stage ("cover" fit).
 let view = { x: 0, y: 0, w: STAGE_W, h: STAGE_H };
+let userCustomSize = false;
+
 function resize() {
   const dpr = Math.min(window.devicePixelRatio || 1, 2);
   const w = Math.max(1, Math.round(innerWidth * dpr));
@@ -64,9 +66,47 @@ function resize() {
     const vw = STAGE_H * aspect;
     view = { x: (STAGE_W - vw) * 0.5, y: 0, w: vw, h: STAGE_H };
   }
+
+  // Responsive scaling for mobile, tablets, and desktop
+  if (!userCustomSize) {
+    let responsiveScale = 0.53;
+    if (innerWidth < 500) {
+      responsiveScale = 0.32; // Mobile portrait (iPhone, Android)
+    } else if (innerWidth < 768) {
+      responsiveScale = 0.38; // Small tablets / large phones
+    } else if (innerWidth < 1024) {
+      responsiveScale = 0.44; // iPads & tablets
+    }
+    for (const p of puppets) p.baseScale = responsiveScale;
+    const sizeSlider = $('opt-size');
+    if (sizeSlider) sizeSlider.value = String(responsiveScale);
+  }
 }
 addEventListener('resize', resize);
 resize();
+
+// ---------- Landing Page & Stage Navigation ----------
+function showStage() {
+  document.body.className = 'view-stage';
+  resize();
+  if (window.wayang?.music && !window.wayang.music.started) {
+    window.wayang.music.start();
+  }
+}
+
+function showLanding() {
+  document.body.className = 'view-landing';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+$('btn-nav-play')?.addEventListener('click', showStage);
+$('btn-hero-play')?.addEventListener('click', showStage);
+$('btn-bottom-play')?.addEventListener('click', showStage);
+$('btn-back-home')?.addEventListener('click', showLanding);
+
+if (location.hash === '#play') {
+  showStage();
+}
 
 // ---------- UI ----------
 const intro = $('intro');
@@ -104,11 +144,13 @@ $('use-mouse').addEventListener('click', () => {
   intro.classList.add('gone');
 });
 
-canvas.addEventListener('pointermove', (e) => {
+const handlePointer = (e) => {
   controller.mouse.x = view.x + (e.clientX / innerWidth) * view.w;
   controller.mouse.y = view.y + (e.clientY / innerHeight) * view.h;
   controller.mouse.seen = true;
-});
+};
+canvas.addEventListener('pointermove', handlePointer);
+canvas.addEventListener('pointerdown', handlePointer);
 canvas.addEventListener(
   'wheel',
   (e) => {
@@ -166,6 +208,7 @@ function toggleCameraWindow() {
 popoutBtn.addEventListener('click', toggleCameraWindow);
 $('preview-popout').addEventListener('click', toggleCameraWindow);
 $('opt-size').addEventListener('input', (e) => {
+  userCustomSize = true;
   for (const p of puppets) p.baseScale = parseFloat(e.target.value);
 });
 
