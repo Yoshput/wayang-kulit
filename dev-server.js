@@ -106,6 +106,7 @@ const server = http.createServer((req, res) => {
       });
 
       const stream = fs.createReadStream(filePath, { start, end });
+      stream.on('error', () => { if (!res.headersSent) res.writeHead(500); res.end(); });
       stream.pipe(res);
     } else {
       res.writeHead(200, {
@@ -113,9 +114,31 @@ const server = http.createServer((req, res) => {
         'Content-Type': contentType,
         'Accept-Ranges': 'bytes',
       });
-      fs.createReadStream(filePath).pipe(res);
+      const stream = fs.createReadStream(filePath);
+      stream.on('error', () => { if (!res.headersSent) res.writeHead(500); res.end(); });
+      stream.pipe(res);
     }
   });
+});
+
+server.on('error', (err) => {
+  if (err.code === 'EADDRINUSE') {
+    console.error(`Port ${PORT} in use, retrying in 1s...`);
+    setTimeout(() => {
+      server.close();
+      server.listen(PORT, '0.0.0.0');
+    }, 1000);
+  } else {
+    console.error('Server error:', err);
+  }
+});
+
+process.on('uncaughtException', (err) => {
+  console.error('Dev server uncaught exception (handled):', err?.message || err);
+});
+
+process.on('unhandledRejection', (reason) => {
+  console.error('Dev server unhandled rejection (handled):', reason);
 });
 
 server.listen(PORT, '0.0.0.0', () => {
