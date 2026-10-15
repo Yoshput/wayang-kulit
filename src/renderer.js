@@ -530,7 +530,11 @@ export class Renderer {
       });
       gl.uniform2fv(prog.u('uTies'), ties);
       gl.uniform1i(prog.u('uTieCount'), Math.min(4, item.ties.length));
-      if (item.style === 'gapit') {
+      if (item.colorA && item.colorB) {
+        gl.uniform3f(prog.u('uColorA'), ...item.colorA);
+        gl.uniform3f(prog.u('uColorB'), ...item.colorB);
+        gl.uniform1f(prog.u('uSeed'), item.seed || 1.0);
+      } else if (item.style === 'gapit') {
         gl.uniform3f(prog.u('uColorA'), 0.075, 0.045, 0.03);
         gl.uniform3f(prog.u('uColorB'), 0.42, 0.22, 0.08);
         gl.uniform1f(prog.u('uSeed'), 3.1);

@@ -751,6 +751,18 @@
             <span>Beranda</span>
           </button>
 
+          <!-- Mode Switcher Pill (Pagelaran vs Mode Duel) -->
+          <div class="mode-switch-pill" id="mode-switch" role="tablist" aria-label="Mode Panggung">
+            <button id="btn-mode-pagelaran" class="mode-tab active" role="tab" aria-selected="true" data-mode="pagelaran" title="Mode Pagelaran Klasik">
+              <span class="mode-tab-dot"></span>
+              <span>Pagelaran</span>
+            </button>
+            <button id="btn-mode-duel" class="mode-tab" role="tab" aria-selected="false" data-mode="duel" title="Mode Duel Pertarungan">
+              <span class="mode-tab-dot"></span>
+              <span>Mode Duel</span>
+            </button>
+          </div>
+
           <!-- Watermark Badge in Stage Header -->
           <div id="author-badge" class="author-badge" aria-label="Author Credit">
             <span class="product-by">Product by</span>
@@ -793,6 +805,191 @@
         </div>
       </header>
 
+      <!-- ==================== DUEL MODE HUD & OVERLAYS ==================== -->
+      <div id="duel-hud" class="duel-hud" hidden aria-hidden="true">
+        <!-- Top Duel Scoreboard & Status -->
+        <div class="duel-topbar">
+          <!-- Player 1 Status Card (Left) -->
+          <div class="duel-player-card duel-p1">
+            <div class="duel-avatar-wrap" id="duel-p1-avatar-btn" role="button" tabindex="0" title="Ganti Karakter P1">
+              <img id="duel-p1-avatar" src="assets/char-arjuna-thumb.webp" alt="P1 Avatar" class="duel-avatar-img" />
+              <span class="duel-p-tag">P1</span>
+            </div>
+            <div class="duel-meter-col">
+              <div class="duel-meta-line">
+                <span class="duel-fighter-name" id="duel-p1-name">Raden Arjuna</span>
+                <div class="duel-round-gems" id="duel-p1-rounds" aria-label="Rounds won">
+                  <span class="round-gem"></span>
+                  <span class="round-gem"></span>
+                </div>
+              </div>
+              <!-- Health Bar -->
+              <div class="duel-bar-track duel-hp-track">
+                <div class="duel-bar-damage" id="duel-p1-hp-damage"></div>
+                <div class="duel-bar-fill duel-hp-fill" id="duel-p1-hp-fill" style="width: 100%;"></div>
+                <span class="duel-bar-label" id="duel-p1-hp-val">100 / 100</span>
+              </div>
+              <!-- Energy Bar -->
+              <div class="duel-bar-track duel-energy-track">
+                <div class="duel-bar-fill duel-energy-fill" id="duel-p1-energy-fill" style="width: 30%;"></div>
+                <span class="duel-bar-label" id="duel-p1-energy-val">30 EP</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Center Match Status & Controls -->
+          <div class="duel-center-col">
+            <div class="duel-round-badge" id="duel-round-label">RONDE 1</div>
+            <div class="duel-timer-box">
+              <span class="duel-timer-val" id="duel-timer-val">60</span>
+            </div>
+            <div class="duel-controls-bar">
+              <button id="btn-toggle-ai" class="duel-ctrl-btn" title="Ganti Mode Lawan AI atau 2 Pemain">
+                <span class="ctrl-dot active" id="duel-ai-dot"></span>
+                <span id="duel-ai-text">Lawan AI</span>
+              </button>
+              <button id="btn-open-char-select" class="duel-ctrl-btn" title="Pilih Karakter Wayang & Crossover">
+                <span>Pilih Tokoh</span>
+              </button>
+              <button id="btn-reset-match" class="duel-ctrl-btn" title="Mulai Ulang Pertandingan">
+                <span>Reset</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Player 2 Status Card (Right) -->
+          <div class="duel-player-card duel-p2">
+            <div class="duel-meter-col">
+              <div class="duel-meta-line duel-meta-right">
+                <div class="duel-round-gems" id="duel-p2-rounds" aria-label="Rounds won">
+                  <span class="round-gem"></span>
+                  <span class="round-gem"></span>
+                </div>
+                <span class="duel-fighter-name" id="duel-p2-name">Kazuya Mishima</span>
+              </div>
+              <!-- Health Bar -->
+              <div class="duel-bar-track duel-hp-track">
+                <div class="duel-bar-damage" id="duel-p2-hp-damage"></div>
+                <div class="duel-bar-fill duel-hp-fill duel-hp-enemy" id="duel-p2-hp-fill" style="width: 100%;"></div>
+                <span class="duel-bar-label" id="duel-p2-hp-val">115 / 115</span>
+              </div>
+              <!-- Energy Bar -->
+              <div class="duel-bar-track duel-energy-track">
+                <div class="duel-bar-fill duel-energy-fill" id="duel-p2-energy-fill" style="width: 30%;"></div>
+                <span class="duel-bar-label" id="duel-p2-energy-val">30 EP</span>
+              </div>
+            </div>
+            <div class="duel-avatar-wrap" id="duel-p2-avatar-btn" role="button" tabindex="0" title="Ganti Karakter P2">
+              <img id="duel-p2-avatar" src="assets/char-bima-thumb.webp" alt="P2 Avatar" class="duel-avatar-img" />
+              <span class="duel-p-tag" id="duel-p2-tag">P2 (AI)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bottom Floating Combat Action Deck -->
+        <div class="duel-action-deck" id="duel-action-deck">
+          <button class="duel-action-btn" id="act-sabetan" data-action="heavy_sabetan" title="Sabetan Kuat (Tekan 1 / Kepalkan Tangan)">
+            <div class="act-key-badge"><kbd>1</kbd></div>
+            <div class="act-body">
+              <span class="act-name" id="act-sabetan-name">Sabetan</span>
+              <span class="act-gesture">Kepalan Tangan</span>
+            </div>
+            <div class="act-cooldown-overlay" id="cd-sabetan"></div>
+          </button>
+
+          <button class="duel-action-btn" id="act-projectile" data-action="shoot_projectile" title="Panah / Pusaka (Tekan 2 / Dua Jari)">
+            <div class="act-key-badge"><kbd>2</kbd></div>
+            <div class="act-body">
+              <span class="act-name" id="act-projectile-name">Pusaka</span>
+              <span class="act-gesture">Dua Jari · 25 EP</span>
+            </div>
+            <div class="act-cooldown-overlay" id="cd-projectile"></div>
+          </button>
+
+          <button class="duel-action-btn" id="act-signature" data-action="signature_skill" title="Skill Khas Karakter (Tekan 3 / Tiga Jari)">
+            <div class="act-key-badge"><kbd>3</kbd></div>
+            <div class="act-body">
+              <span class="act-name" id="act-signature-name">Skill Khas</span>
+              <span class="act-gesture">Tiga Jari · 35 EP</span>
+            </div>
+            <div class="act-cooldown-overlay" id="cd-signature"></div>
+          </button>
+
+          <button class="duel-action-btn" id="act-dash" data-action="dash" title="Hindar / Dash (Spasi / Geser Cepat)">
+            <div class="act-key-badge"><kbd>Spasi</kbd></div>
+            <div class="act-body">
+              <span class="act-name">Hindar</span>
+              <span class="act-gesture">Swipe Cepat</span>
+            </div>
+            <div class="act-cooldown-overlay" id="cd-dash"></div>
+          </button>
+
+          <button class="duel-action-btn" id="act-heal" data-action="meditate_heal" title="Meditasi Pulih HP (Tekan E / Tahan Telapak Atas)">
+            <div class="act-key-badge"><kbd>E</kbd></div>
+            <div class="act-body">
+              <span class="act-name">Meditasi Heal</span>
+              <span class="act-gesture">Tahan Telapak Atas</span>
+            </div>
+            <div class="act-cooldown-overlay" id="cd-heal"></div>
+          </button>
+
+          <button class="duel-action-btn act-ultimate" id="act-ultimate" data-action="ultimate" title="Aji Pamungkas (Tekan R / Dua Tangan Merapat)">
+            <div class="act-key-badge"><kbd>R</kbd></div>
+            <div class="act-body">
+              <span class="act-name" id="act-ultimate-name">Aji Pamungkas</span>
+              <span class="act-gesture">2 Tangan · 100 EP</span>
+            </div>
+            <div class="act-cooldown-overlay" id="cd-ultimate"></div>
+          </button>
+        </div>
+      </div>
+
+      <!-- Central Theatrical Announcements Banner -->
+      <div id="duel-announcement" class="duel-announcement" hidden aria-live="assertive">
+        <div class="announcement-panel">
+          <div class="gunungan-silhouette"></div>
+          <div class="announcement-kicker" id="announcement-sub">TANCEP KAYON</div>
+          <h2 class="announcement-title" id="announcement-main">RONDE 1</h2>
+        </div>
+      </div>
+
+      <!-- ==================== CHARACTER SELECTION MODAL ==================== -->
+      <div id="character-select-modal" class="char-modal-backdrop" hidden aria-hidden="true" role="dialog" aria-label="Pilih Tokoh Petarung">
+        <div class="char-modal-panel">
+          <header class="char-modal-topbar">
+            <div class="char-modal-title-group">
+              <span class="modal-tag">Panggung Arena Duel</span>
+              <h2 class="modal-heading-text">Pilih Tokoh Petarung</h2>
+            </div>
+            <div class="char-tab-switcher">
+              <button class="char-tab-btn active" id="tab-wayang" data-tab="wayang">
+                <span>Wayang Purwa (11)</span>
+              </button>
+              <button class="char-tab-btn" id="tab-crossover" data-tab="crossover">
+                <span>Tekken 8 Crossover (8)</span>
+              </button>
+            </div>
+            <button id="btn-close-char-modal" class="modal-btn-icon modal-close" title="Tutup (Esc)">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
+          </header>
+
+          <div class="char-modal-body">
+            <!-- Left Column: Character Grid -->
+            <div class="char-grid-col">
+              <div class="char-grid" id="char-grid">
+                <!-- Populated dynamically -->
+              </div>
+            </div>
+
+            <!-- Right Column: Fighter Dossier -->
+            <div class="char-dossier-col" id="char-dossier">
+              <!-- Rendered dynamically -->
+            </div>
+          </div>
+        </div>
+      </div>
+
       <!-- Intro Card on Stage -->
       <section id="intro" class="panel intro">
         <p class="eyebrow">Wayang Kulit Digital</p>
@@ -816,7 +1013,7 @@
       <!-- Bottom HUD Status & Keys -->
       <div id="hud" class="hud">
         <div class="pill" id="status"><span class="dot"></span><span id="status-text">Demo</span></div>
-        <p class="keys"><kbd>D</kbd> dance <kbd>F</kbd><kbd>G</kbd> turn <kbd>H</kbd> hide UI <kbd>C</kbd> recalibrate <kbd>V</kbd> camera <kbd>P</kbd> pop out <kbd>M</kbd> music</p>
+        <p class="keys" id="hud-keys"><kbd>D</kbd> dance <kbd>F</kbd><kbd>G</kbd> turn <kbd>H</kbd> hide UI <kbd>C</kbd> recalibrate <kbd>V</kbd> camera <kbd>P</kbd> pop out <kbd>M</kbd> music</p>
       </div>
 
       <!-- Settings Panel -->
@@ -849,6 +1046,8 @@
           </select>
         </label>
         <label class="row"><input type="checkbox" id="opt-camera" checked /> Tampilkan preview kamera</label>
+        <label class="row"><input type="checkbox" id="opt-blood" checked /> Efek Percikan Darah Stilasi (Mode Duel)</label>
+        <label class="row"><input type="checkbox" id="opt-gesture-debug" /> Tampilkan Overlay Debug Gestur Tempur</label>
         <button id="opt-popout" class="btn small" type="button">Buka kamera di jendela baru</button>
         <label>Ukuran Wayang
           <input type="range" id="opt-size" min="0.25" max="0.75" step="0.01" value="0.53" />

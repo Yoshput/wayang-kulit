@@ -4,6 +4,11 @@ import { HandTracker } from './tracking.js';
 import { Controller } from './controller.js';
 import { BackgroundMusic, BeatClock } from './audio.js';
 import { clamp, noise1 } from './math.js';
+import { CHARACTERS, CHARACTER_TYPES } from './characters.js';
+import { CombatGestureDetector, GESTURE_TYPES } from './gestures.js';
+import { ParticleSystem } from './particles.js';
+import { ArenaItemManager } from './items.js';
+import { CombatEngine, COMBAT_MODES, MATCH_STATES } from './combat.js';
 
 const $ = (id) => document.getElementById(id);
 const canvas = $('stage');
@@ -610,6 +615,26 @@ function turnPuppet(i) {
 addEventListener('keydown', (e) => {
   if (e.target instanceof HTMLInputElement || e.target instanceof HTMLSelectElement) return;
   const k = e.key.toLowerCase();
+
+  // Mode Duel Combat Shortcuts (P1: 1, 2, 3, Space, E, R; P2 Local: 7, 8, 9, U, I)
+  if (window.wayang?.combatEngine && window.wayang.combatEngine.mode !== COMBAT_MODES.PAGELARAN) {
+    const engine = window.wayang.combatEngine;
+    if (k === '1') { engine.executeAction(0, 'heavy_sabetan'); return; }
+    if (k === '2') { engine.executeAction(0, 'shoot_projectile'); return; }
+    if (k === '3') { engine.executeAction(0, 'signature_skill'); return; }
+    if (k === ' ') { engine.executeAction(0, 'dash_right'); e.preventDefault(); return; }
+    if (k === 'e') { engine.executeAction(0, 'meditate_heal'); return; }
+    if (k === 'r') { engine.executeAction(0, 'ultimate'); return; }
+
+    if (engine.mode === COMBAT_MODES.DUEL_PVP) {
+      if (k === '7') { engine.executeAction(1, 'heavy_sabetan'); return; }
+      if (k === '8') { engine.executeAction(1, 'shoot_projectile'); return; }
+      if (k === '9') { engine.executeAction(1, 'signature_skill'); return; }
+      if (k === 'u') { engine.executeAction(1, 'meditate_heal'); return; }
+      if (k === 'i') { engine.executeAction(1, 'ultimate'); return; }
+    }
+  }
+
   if (k === 'f') turnPuppet(0);
   else if (k === 'g') turnPuppet(1);
   else if (k === 'h') document.body.classList.toggle('ui-hidden');
@@ -631,6 +656,483 @@ function showToast(text) {
   clearTimeout(toastTimer);
   toastTimer = setTimeout(() => toast.classList.remove('show'), 2600);
 }
+
+// =========================================================
+// DUEL MODE SUBSYSTEM (COMBAT ENGINE, PARTICLES, ANNOUNCEMENTS, ROSTER)
+// =========================================================
+const particleSystem = new ParticleSystem();
+const arenaItems = new ArenaItemManager();
+const combatGestures = new CombatGestureDetector();
+let showGestureDebug = false;
+let currentDossierCharId = 'arjuna';
+let currentDossierLang = 'id';
+
+const announcementEl = $('duel-announcement');
+const announcementMain = $('announcement-main');
+const announcementSub = $('announcement-sub');
+let announcementTimer = 0;
+
+function showAnnouncement(main, sub, duration = 1900) {
+  if (!announcementEl || !announcementMain || !announcementSub) return;
+  announcementMain.textContent = main;
+  announcementSub.textContent = sub;
+  announcementEl.hidden = false;
+  announcementEl.classList.remove('hidden');
+  clearTimeout(announcementTimer);
+  announcementTimer = setTimeout(() => {
+    announcementEl.classList.add('hidden');
+    setTimeout(() => { announcementEl.hidden = true; }, 360);
+  }, duration);
+}
+
+const combatEngine = new CombatEngine({
+  particles: particleSystem,
+  items: arenaItems,
+  onStateChange: (state) => {
+    if (state === MATCH_STATES.INTRO) {
+      showAnnouncement(`RONDE ${combatEngine.round}`, 'TANCEP KAYON');
+    } else if (state === MATCH_STATES.FIGHTING) {
+      showAnnouncement('MULAI!', 'FIGHT!');
+    } else if (state === MATCH_STATES.ROUND_OVER) {
+      const winner = combatEngine.roundWinner === 1 ? combatEngine.p1 : combatEngine.p2;
+      showAnnouncement('K.O.', `${winner.char.name} Menang Ronde!`);
+    } else if (state === MATCH_STATES.MATCH_OVER) {
+      const winner = combatEngine.winner === 1 ? combatEngine.p1 : combatEngine.p2;
+      showAnnouncement('VICTORY!', `${winner.char.name} Juara Pertarungan!`, 3200);
+    }
+  },
+  onToast: (msg) => showToast(msg),
+});
+
+window.wayang.combatEngine = combatEngine;
+window.wayang.particleSystem = particleSystem;
+window.wayang.arenaItems = arenaItems;
+window.wayang.combatGestures = combatGestures;
+
+// Update UI headers & action deck labels for currently selected fighters
+function updateDuelFighterHeader() {
+  const p1 = combatEngine.p1;
+  const p2 = combatEngine.p2;
+
+  const p1Avatar = $('duel-p1-avatar');
+  if (p1Avatar) {
+    p1Avatar.src = p1.char.portrait;
+    p1Avatar.onerror = () => { p1Avatar.src = 'assets/char-arjuna-thumb.webp'; };
+  }
+  const p1Name = $('duel-p1-name');
+  if (p1Name) p1Name.textContent = p1.char.name;
+
+  const p2Avatar = $('duel-p2-avatar');
+  if (p2Avatar) {
+    p2Avatar.src = p2.char.portrait;
+    p2Avatar.onerror = () => { p2Avatar.src = 'assets/char-bima-thumb.webp'; };
+  }
+  const p2Name = $('duel-p2-name');
+  if (p2Name) p2Name.textContent = p2.char.name;
+
+  // Action button skill titles from P1
+  const s1 = $('act-sabetan-name');
+  if (s1) s1.textContent = p1.char.skills.sabetan.name;
+  const s2 = $('act-projectile-name');
+  if (s2) s2.textContent = p1.char.skills.projectile.name;
+  const s3 = $('act-signature-name');
+  if (s3) s3.textContent = p1.char.skills.signature.name;
+  const s4 = $('act-ultimate-name');
+  if (s4) s4.textContent = p1.char.skills.ultimate.name;
+}
+
+// Tick update for Duel HUD (HP meters, Energy, Cooldowns, Round Gems, Timer)
+function updateDuelHud() {
+  const p1 = combatEngine.p1;
+  const p2 = combatEngine.p2;
+
+  // 1. Health bars
+  const p1HpFill = $('duel-p1-hp-fill');
+  const p1HpDamage = $('duel-p1-hp-damage');
+  const p1HpVal = $('duel-p1-hp-val');
+  if (p1HpFill) {
+    const pct = Math.max(0, Math.min(100, (p1.hp / p1.maxHp) * 100));
+    p1HpFill.style.width = `${pct}%`;
+    if (p1HpDamage) {
+      const curDam = parseFloat(p1HpDamage.style.width) || 100;
+      if (curDam > pct) {
+        p1HpDamage.style.width = `${Math.max(pct, curDam - 0.4)}%`;
+      } else {
+        p1HpDamage.style.width = `${pct}%`;
+      }
+    }
+    if (p1HpVal) p1HpVal.textContent = `${Math.round(p1.hp)} / ${p1.maxHp}`;
+  }
+
+  const p2HpFill = $('duel-p2-hp-fill');
+  const p2HpDamage = $('duel-p2-hp-damage');
+  const p2HpVal = $('duel-p2-hp-val');
+  if (p2HpFill) {
+    const pct2 = Math.max(0, Math.min(100, (p2.hp / p2.maxHp) * 100));
+    p2HpFill.style.width = `${pct2}%`;
+    if (p2HpDamage) {
+      const curDam2 = parseFloat(p2HpDamage.style.width) || 100;
+      if (curDam2 > pct2) {
+        p2HpDamage.style.width = `${Math.max(pct2, curDam2 - 0.4)}%`;
+      } else {
+        p2HpDamage.style.width = `${pct2}%`;
+      }
+    }
+    if (p2HpVal) p2HpVal.textContent = `${Math.round(p2.hp)} / ${p2.maxHp}`;
+  }
+
+  // 2. Energy bars
+  const p1EnergyFill = $('duel-p1-energy-fill');
+  const p1EnergyVal = $('duel-p1-energy-val');
+  if (p1EnergyFill) {
+    p1EnergyFill.style.width = `${Math.max(0, Math.min(100, p1.energy))}%`;
+    if (p1EnergyVal) p1EnergyVal.textContent = `${Math.round(p1.energy)} EP`;
+  }
+
+  const p2EnergyFill = $('duel-p2-energy-fill');
+  const p2EnergyVal = $('duel-p2-energy-val');
+  if (p2EnergyFill) {
+    p2EnergyFill.style.width = `${Math.max(0, Math.min(100, p2.energy))}%`;
+    if (p2EnergyVal) p2EnergyVal.textContent = `${Math.round(p2.energy)} EP`;
+  }
+
+  // 3. Round Gems
+  const p1Gems = $('duel-p1-rounds')?.querySelectorAll('.round-gem');
+  if (p1Gems) {
+    p1Gems.forEach((g, idx) => {
+      g.classList.toggle('won', p1.roundsWon > idx);
+    });
+  }
+  const p2Gems = $('duel-p2-rounds')?.querySelectorAll('.round-gem');
+  if (p2Gems) {
+    p2Gems.forEach((g, idx) => {
+      g.classList.toggle('won', p2.roundsWon > idx);
+    });
+  }
+
+  // 4. Timer & Round label
+  const timerVal = $('duel-timer-val');
+  if (timerVal) {
+    timerVal.textContent = String(Math.ceil(combatEngine.roundTimer));
+  }
+  const roundLabel = $('duel-round-label');
+  if (roundLabel) {
+    roundLabel.textContent = combatEngine.round <= 2 ? `RONDE ${combatEngine.round}` : 'RONDE PENENTU';
+  }
+
+  // 5. Cooldown sweeps on action buttons
+  const cdSabetan = $('cd-sabetan');
+  if (cdSabetan) {
+    const maxCd = p1.char.skills.sabetan.cooldown || 0.6;
+    const ratio = Math.max(0, Math.min(1, p1.cooldowns.sabetan / maxCd));
+    cdSabetan.style.transform = `scaleY(${ratio})`;
+  }
+
+  const cdProj = $('cd-projectile');
+  if (cdProj) {
+    const maxCd = p1.char.skills.projectile.cooldown || 2.8;
+    const ratio = Math.max(0, Math.min(1, p1.cooldowns.projectile / maxCd));
+    cdProj.style.transform = `scaleY(${ratio})`;
+  }
+
+  const cdSig = $('cd-signature');
+  if (cdSig) {
+    const maxCd = p1.char.skills.signature.cooldown || 6.0;
+    const ratio = Math.max(0, Math.min(1, p1.cooldowns.signature / maxCd));
+    cdSig.style.transform = `scaleY(${ratio})`;
+  }
+
+  const cdUlt = $('cd-ultimate');
+  if (cdUlt) {
+    const maxCd = 12.0;
+    const ratio = Math.max(0, Math.min(1, p1.cooldowns.ultimate / maxCd));
+    cdUlt.style.transform = `scaleY(${ratio})`;
+  }
+
+  // Ultimate button highlight when 100 EP ready
+  const ultBtn = $('act-ultimate');
+  if (ultBtn) {
+    ultBtn.classList.toggle('ready', p1.energy >= 100);
+  }
+}
+
+// Mode switcher handler
+function setStageMode(mode) {
+  const isDuel = mode === 'duel';
+  $('btn-mode-pagelaran')?.classList.toggle('active', !isDuel);
+  $('btn-mode-duel')?.classList.toggle('active', isDuel);
+  $('btn-mode-pagelaran')?.setAttribute('aria-selected', String(!isDuel));
+  $('btn-mode-duel')?.setAttribute('aria-selected', String(isDuel));
+
+  const duelHud = $('duel-hud');
+  if (duelHud) {
+    duelHud.hidden = !isDuel;
+    duelHud.setAttribute('aria-hidden', String(!isDuel));
+  }
+
+  const hudKeys = $('hud-keys');
+  if (hudKeys) {
+    hudKeys.innerHTML = isDuel
+      ? '<kbd>1</kbd> sabetan <kbd>2</kbd> pusaka <kbd>3</kbd> skill <kbd>Spasi</kbd> dash <kbd>E</kbd> heal <kbd>R</kbd> ulti <kbd>H</kbd> hide UI'
+      : '<kbd>D</kbd> dance <kbd>F</kbd><kbd>G</kbd> turn <kbd>H</kbd> hide UI <kbd>C</kbd> recalibrate <kbd>V</kbd> camera <kbd>P</kbd> pop out <kbd>M</kbd> music';
+  }
+
+  if (isDuel) {
+    combatEngine.mode = combatEngine.p2.isAI ? COMBAT_MODES.DUEL_PV_AI : COMBAT_MODES.DUEL_PVP;
+    controller.puppetCount = 2;
+    controller.settings.characters = 'two';
+    applyFacing();
+    updateDuelFighterHeader();
+    combatEngine.startMatch();
+    showToast('Mode Duel Dimulai! Siapkan gestur atau tombol [1-3, Spasi, E, R]');
+  } else {
+    combatEngine.mode = COMBAT_MODES.PAGELARAN;
+    controller.settings.characters = $('opt-characters')?.value || 'two';
+    controller.puppetCount = controller.settings.characters === 'one' ? 1 : 2;
+    applyFacing();
+    showToast('Kembali ke Mode Pagelaran Tradisional');
+  }
+}
+
+// Character Selection Modal Subsystem
+function renderCharacterGrid(category = 'wayang') {
+  const grid = $('char-grid');
+  if (!grid) return;
+  grid.innerHTML = '';
+
+  const chars = Object.values(CHARACTERS).filter((c) => c.type === category);
+  chars.forEach((c) => {
+    const card = document.createElement('div');
+    card.className = `char-card ${c.id === currentDossierCharId ? 'selected' : ''}`;
+    card.setAttribute('role', 'button');
+    card.setAttribute('tabindex', '0');
+    card.setAttribute('title', `${c.name} (${c.title})`);
+
+    const img = document.createElement('img');
+    img.src = c.portrait;
+    img.alt = c.name;
+    img.className = 'char-card-avatar';
+    img.loading = 'lazy';
+    img.onerror = () => { img.src = 'assets/char-arjuna-thumb.webp'; };
+
+    const name = document.createElement('span');
+    name.className = 'char-card-name';
+    name.textContent = c.name;
+
+    const badge = document.createElement('span');
+    badge.className = 'char-card-badge';
+    badge.textContent = c.type === 'crossover' ? 'Tekken 8' : 'Wayang Purwa';
+
+    card.appendChild(img);
+    card.appendChild(name);
+    card.appendChild(badge);
+
+    card.addEventListener('click', () => {
+      document.querySelectorAll('.char-card').forEach((el) => el.classList.remove('selected'));
+      card.classList.add('selected');
+      currentDossierCharId = c.id;
+      renderCharacterDossier(c.id);
+    });
+
+    grid.appendChild(card);
+  });
+}
+
+function renderCharacterDossier(charId) {
+  const dossier = $('char-dossier');
+  if (!dossier) return;
+  const c = CHARACTERS[charId] || CHARACTERS.arjuna;
+
+  const loreText = currentDossierLang === 'id' ? c.lore.id : c.lore.en;
+  const counterpartHtml = c.wayangCounterpart
+    ? `<div class="dossier-counterpart">
+         <span>Padanan Wayang:</span>
+         <strong>${currentDossierLang === 'id' ? c.wayangCounterpart : c.wayangCounterpartEn || c.wayangCounterpart}</strong>
+       </div>`
+    : '';
+
+  dossier.innerHTML = `
+    <div class="dossier-header">
+      <img src="${c.portrait}" alt="${c.name}" class="dossier-avatar-large" onerror="this.src='assets/char-arjuna-thumb.webp'" />
+      <div class="dossier-title-col">
+        <h3 class="dossier-name">${c.name}</h3>
+        <p class="dossier-title">${currentDossierLang === 'id' ? c.title : c.titleEn || c.title}</p>
+        ${counterpartHtml}
+      </div>
+    </div>
+
+    <!-- Stat Meters -->
+    <div class="dossier-stats-grid">
+      <div class="dossier-stat-row">
+        <div class="stat-label-line"><span>Kesehatan (HP)</span><strong>${c.stats.hp}</strong></div>
+        <div class="stat-track"><div class="stat-fill" style="width: ${Math.min(100, (c.stats.hp / 130) * 100)}%;"></div></div>
+      </div>
+      <div class="dossier-stat-row">
+        <div class="stat-label-line"><span>Serangan (ATK)</span><strong>${c.stats.attack}</strong></div>
+        <div class="stat-track"><div class="stat-fill" style="width: ${Math.min(100, (c.stats.attack / 110) * 100)}%;"></div></div>
+      </div>
+      <div class="dossier-stat-row">
+        <div class="stat-label-line"><span>Pertahanan (DEF)</span><strong>${c.stats.defense}</strong></div>
+        <div class="stat-track"><div class="stat-fill" style="width: ${Math.min(100, (c.stats.defense / 110) * 100)}%;"></div></div>
+      </div>
+      <div class="dossier-stat-row">
+        <div class="stat-label-line"><span>Kelincahan (SPD)</span><strong>${c.stats.speed}</strong></div>
+        <div class="stat-track"><div class="stat-fill" style="width: ${Math.min(100, (c.stats.speed / 110) * 100)}%;"></div></div>
+      </div>
+    </div>
+
+    <!-- Skills Breakdown -->
+    <div class="dossier-skills-list">
+      <div class="dossier-skill-item">
+        <span class="skill-tag">[1] Sabetan</span>
+        <div class="skill-desc-col">
+          <div class="skill-title-text">${c.skills.sabetan.name} (${c.skills.sabetan.damage} DMG)</div>
+          <div class="skill-detail-text">${currentDossierLang === 'id' ? c.skills.sabetan.desc : c.skills.sabetan.descEn}</div>
+        </div>
+      </div>
+      <div class="dossier-skill-item">
+        <span class="skill-tag">[2] Proyektil</span>
+        <div class="skill-desc-col">
+          <div class="skill-title-text">${c.skills.projectile.name} (${c.skills.projectile.damage} DMG · ${c.skills.projectile.energyCost} EP)</div>
+          <div class="skill-detail-text">${currentDossierLang === 'id' ? c.skills.projectile.desc : c.skills.projectile.descEn}</div>
+        </div>
+      </div>
+      <div class="dossier-skill-item">
+        <span class="skill-tag">[3] Khas</span>
+        <div class="skill-desc-col">
+          <div class="skill-title-text">${c.skills.signature.name}</div>
+          <div class="skill-detail-text">${currentDossierLang === 'id' ? c.skills.signature.desc : c.skills.signature.descEn}</div>
+        </div>
+      </div>
+      <div class="dossier-skill-item">
+        <span class="skill-tag">[R] Pamungkas</span>
+        <div class="skill-desc-col">
+          <div class="skill-title-text">${c.skills.ultimate.name} (100 EP)</div>
+          <div class="skill-detail-text">${currentDossierLang === 'id' ? c.skills.ultimate.desc : c.skills.ultimate.descEn}</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cultural Lore Card -->
+    <div class="dossier-lore-box">
+      <div class="lore-header">
+        <span class="lore-tag">Kisah & Filosofi Budaya</span>
+        <div class="lore-lang-toggle">
+          <button class="lore-lang-btn ${currentDossierLang === 'id' ? 'active' : ''}" id="btn-lang-id">ID</button>
+          <button class="lore-lang-btn ${currentDossierLang === 'en' ? 'active' : ''}" id="btn-lang-en">EN</button>
+        </div>
+      </div>
+      <p class="lore-content-text">${loreText}</p>
+    </div>
+
+    <!-- Select Action Buttons -->
+    <div class="dossier-actions">
+      <button class="dossier-btn dossier-btn-p1" id="btn-choose-p1">Pilih Player 1</button>
+      <button class="dossier-btn dossier-btn-p2" id="btn-choose-p2">Pilih Player 2 (Lawan)</button>
+    </div>
+  `;
+
+  // Bind language buttons
+  $('btn-lang-id')?.addEventListener('click', () => {
+    currentDossierLang = 'id';
+    renderCharacterDossier(charId);
+  });
+  $('btn-lang-en')?.addEventListener('click', () => {
+    currentDossierLang = 'en';
+    renderCharacterDossier(charId);
+  });
+
+  // Bind select buttons
+  $('btn-choose-p1')?.addEventListener('click', () => {
+    combatEngine.setFighter(0, charId);
+    updateDuelFighterHeader();
+    showToast(`Player 1: ${c.name} Terpilih!`);
+    closeCharModal();
+  });
+  $('btn-choose-p2')?.addEventListener('click', () => {
+    combatEngine.setFighter(1, charId);
+    updateDuelFighterHeader();
+    showToast(`Player 2: ${c.name} Terpilih!`);
+    closeCharModal();
+  });
+}
+
+const charModal = $('character-select-modal');
+function openCharModal() {
+  if (!charModal) return;
+  charModal.hidden = false;
+  charModal.setAttribute('aria-hidden', 'false');
+  renderCharacterGrid('wayang');
+  renderCharacterDossier(currentDossierCharId);
+}
+
+function closeCharModal() {
+  if (!charModal || charModal.hidden) return;
+  charModal.hidden = true;
+  charModal.setAttribute('aria-hidden', 'true');
+}
+
+// Bind Character Selection Modal Controls
+$('btn-open-char-select')?.addEventListener('click', openCharModal);
+$('duel-p1-avatar-btn')?.addEventListener('click', openCharModal);
+$('duel-p2-avatar-btn')?.addEventListener('click', openCharModal);
+$('btn-close-char-modal')?.addEventListener('click', closeCharModal);
+charModal?.addEventListener('click', (e) => {
+  if (e.target === charModal) closeCharModal();
+});
+
+$('tab-wayang')?.addEventListener('click', () => {
+  $('tab-wayang')?.classList.add('active');
+  $('tab-crossover')?.classList.remove('active');
+  renderCharacterGrid('wayang');
+});
+
+$('tab-crossover')?.addEventListener('click', () => {
+  $('tab-crossover')?.classList.add('active');
+  $('tab-wayang')?.classList.remove('active');
+  renderCharacterGrid('crossover');
+});
+
+// Bind AI Toggle & Reset Buttons
+$('btn-toggle-ai')?.addEventListener('click', () => {
+  const isNowAI = !combatEngine.p2.isAI;
+  combatEngine.p2.isAI = isNowAI;
+  combatEngine.mode = isNowAI ? COMBAT_MODES.DUEL_PV_AI : COMBAT_MODES.DUEL_PVP;
+  const dot = $('duel-ai-dot');
+  const txt = $('duel-ai-text');
+  const p2Tag = $('duel-p2-tag');
+  if (dot) dot.classList.toggle('active', isNowAI);
+  if (txt) txt.textContent = isNowAI ? 'Lawan AI' : '2 Pemain Lokal';
+  if (p2Tag) p2Tag.textContent = isNowAI ? 'P2 (AI)' : 'P2 (Manual)';
+  showToast(isNowAI ? 'Mode: Lawan Komputer (AI)' : 'Mode: 2 Pemain Lokal (Tangan Kanan / Tombol 7-9, U, I)');
+});
+
+$('btn-reset-match')?.addEventListener('click', () => {
+  combatEngine.startMatch();
+  showToast('Pertandingan Direset!');
+});
+
+// Bind Action Deck Buttons (for mouse & mobile touch players)
+$('act-sabetan')?.addEventListener('click', () => combatEngine.executeAction(0, 'heavy_sabetan'));
+$('act-projectile')?.addEventListener('click', () => combatEngine.executeAction(0, 'shoot_projectile'));
+$('act-signature')?.addEventListener('click', () => combatEngine.executeAction(0, 'signature_skill'));
+$('act-dash')?.addEventListener('click', () => combatEngine.executeAction(0, 'dash_right'));
+$('act-heal')?.addEventListener('click', () => combatEngine.executeAction(0, 'meditate_heal'));
+$('act-ultimate')?.addEventListener('click', () => combatEngine.executeAction(0, 'ultimate'));
+
+// Bind Mode Switcher Tabs
+$('btn-mode-pagelaran')?.addEventListener('click', () => setStageMode('pagelaran'));
+$('btn-mode-duel')?.addEventListener('click', () => setStageMode('duel'));
+
+// Bind Settings options
+$('opt-blood')?.addEventListener('change', (e) => {
+  particleSystem.setBloodEnabled(e.target.checked);
+  showToast(e.target.checked ? 'Efek Darah Stilasi Diaktifkan' : 'Efek Darah Dimatikan');
+});
+$('opt-gesture-debug')?.addEventListener('change', (e) => {
+  showGestureDebug = e.target.checked;
+  showToast(e.target.checked ? 'Overlay Debug Gestur Aktif' : 'Overlay Debug Dimatikan');
+});
 
 function updateHud() {
   const { source, status } = controller;
@@ -740,7 +1242,25 @@ function tick(nowMs) {
   const dt = clamp(t - last, 0, 1 / 15);
   last = t;
 
-  const inputs = controller.update(t, view);
+  // Combat Gestures Recognition & Dispatch
+  const gestures = combatGestures.update(controller.slots, dt, tracker.aspect);
+  if (combatEngine.mode !== COMBAT_MODES.PAGELARAN) {
+    if (gestures[0]) combatEngine.executeAction(0, gestures[0]);
+    if (gestures[1] && combatEngine.mode === COMBAT_MODES.DUEL_PVP) {
+      combatEngine.executeAction(1, gestures[1]);
+    }
+    combatEngine.update(dt, view, puppets);
+  }
+
+  // Update Particle System & Organic Screen Shake
+  particleSystem.update(dt);
+  const effectiveView = { ...view };
+  if (particleSystem.trauma > 0) {
+    effectiveView.x += particleSystem.shakeOffset[0];
+    effectiveView.y += particleSystem.shakeOffset[1];
+  }
+
+  const inputs = controller.update(t, effectiveView);
   const active = puppets.slice(0, controller.puppetCount);
   // in "face each other" mode each character keeps its eyes on the other
   if (active.length === 2) {
@@ -752,7 +1272,7 @@ function tick(nowMs) {
   const steps = Math.max(1, Math.ceil(dt / PHYS_DT));
   const rhythm = { db: beat.db / steps, pos: beat.pos, period: beat.period };
   for (let i = 0; i < steps; i++) {
-    active.forEach((p, j) => p.update(dt / steps, i === 0 ? inputs[j] ?? { active: false } : { ...(inputs[j] ?? { active: false }), danceTrigger: false }, view, rhythm));
+    active.forEach((p, j) => p.update(dt / steps, i === 0 ? inputs[j] ?? { active: false } : { ...(inputs[j] ?? { active: false }), danceTrigger: false }, effectiveView, rhythm));
   }
   active.forEach((p, j) => {
     if (p.danceStarted) {
@@ -767,7 +1287,7 @@ function tick(nowMs) {
       const depth = Math.max(0, p.depth.x);
       return {
         depth: p.depth.x,
-        items: p.frame(view),
+        items: p.frame(effectiveView),
         shadow: {
           scale: 1.03 + 0.2 * depth,
           dy: 8 + 34 * depth,
@@ -778,12 +1298,22 @@ function tick(nowMs) {
     })
     .sort((a, b) => a.depth - b.depth);
 
+  // Inject WebGL2 blood particles, falling heirloom drops, and flying projectiles
+  const extraItems = [
+    ...(combatEngine.mode !== COMBAT_MODES.PAGELARAN ? combatEngine.toRenderItems() : []),
+    ...(combatEngine.mode !== COMBAT_MODES.PAGELARAN ? arenaItems.toRenderItems() : []),
+    ...particleSystem.toRenderItems(),
+  ];
+  if (layers.length > 0 && extraItems.length > 0) {
+    layers[0].items.push(...extraItems);
+  }
+
   // blencong: an oil flame — flicker, and a slow sway that nudges every shadow
   const flicker = 1 + 0.03 * Math.sin(t * 7.3) + 0.02 * Math.sin(t * 13.7 + 1.1) + (noise1(t * 6.5) - 0.5) * 0.07;
   const sway = (noise1(t * 1.2 + 10) - 0.5) * 26;
 
   const frame = {
-    view,
+    view: effectiveView,
     layers,
     time: t,
     lamp: [STAGE_W / 2 + sway, -560, 1300],
@@ -797,7 +1327,15 @@ function tick(nowMs) {
   window.wayang.lastFrame = frame;
 
   drawPreview();
+  if (showGestureDebug && !previewBox.hidden && cameraReady()) {
+    combatGestures.drawDebugOverlay(pctx, preview.width, preview.height);
+  }
+
   updateHud();
+  if (combatEngine.mode !== COMBAT_MODES.PAGELARAN) {
+    updateDuelHud();
+  }
+
   requestAnimationFrame(tick);
 }
 requestAnimationFrame(tick);
